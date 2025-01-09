@@ -5,6 +5,7 @@ import { useHomeData } from "@hooks/useHomeData";
  */
 const Home = () => {
   const { data: state } = useHomeData();
+  console.log(state)
 
   if (state.loading) {
     return <>loading products ... </>;
