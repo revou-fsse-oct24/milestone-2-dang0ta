@@ -36,7 +36,7 @@ export const getProductsByCategoryURL = ({id}: {id: string}): string => new URL(
  * @param {number} [limit=10] - The limit for pagination.
  * @returns {string} The URL for fetching products.
  */
-export const getProductsURL = (offset: number, limit: number=10): string => new URL(`api/v1/products?offest=${offset}&limit=${limit}`, baseURL()).toString();
+export const getProductsURL = (offset: number = 0, limit: number=10): string => new URL(`api/v1/products?offset=${offset}&limit=${limit}`, baseURL()).toString();
 
 /**
  * Returns the URL for fetching a specific product by ID.

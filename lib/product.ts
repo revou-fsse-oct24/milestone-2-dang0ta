@@ -36,11 +36,13 @@ const defaultProduct = (): Product => {
  */
 export async function getProducts({
   offset,
+  limit,
 }: {
-  offset: number;
+  offset?: number;
+  limit?: number;
 }): Promise<Response<Product[]>> {
   try {
-    const res = await fetch(getProductsURL(offset));
+    const res = await fetch(getProductsURL(offset, limit));
     if (!res.ok) {
       console.warn(res.statusText);
       return {
