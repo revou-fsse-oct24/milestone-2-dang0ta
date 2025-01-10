@@ -1,6 +1,9 @@
+import { useCart } from "@contexts/CartContext";
+
 const Cart = () => {
+    const {total} = useCart();
   return (
-    <div>Cart</div>
+    <div>{total()}</div>
   )
 }
 

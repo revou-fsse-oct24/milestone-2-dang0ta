@@ -21,6 +21,7 @@ const ProductCard = ({
       <p className="text-ellipsis w-full whitespace-nowrap overflow-hidden">
         {product.description}
       </p>
+      
     </div>
   );
 };
