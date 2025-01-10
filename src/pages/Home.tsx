@@ -21,26 +21,9 @@ const Home = () => {
 
   return (
     <>
-      <div>
-        <h2>Top 10 products</h2>
-        <ScrollArea>
-            <div className="flex space-x-4 pb-4">
-            {state.products.map((product) => (
-                <div key={product.id} className="flex flex-col items-start">
-                <Link  to={`/product/${product.id}`}>
-                <ProductCard product={product} />
-                </Link>
-                <CartModifier product={product} />
-                </div>
-            ))}
-            </div>
-            <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </div>
-
-      <div>
+    <div>
         <h2>Categories</h2>
-        <div className="flex flex-row flex-nowrap overflow-x-scroll whitespace-nowrap">
+        <div className="flex flex-row space-x-4 p-4">
           {state.categories.map((category) => (
             <Link key={category.id} to={`/products?category=${category.id}`}>
               <CategoryCard category={category} />
@@ -48,6 +31,25 @@ const Home = () => {
           ))}
         </div>
       </div>
+
+      <div>
+        <h2>Top 10 products</h2>
+        <ScrollArea>
+          <div className="flex space-x-4 pb-4">
+            {state.products.map((product) => (
+              <div key={product.id} className="flex flex-col items-start">
+                <Link to={`/product/${product.id}`}>
+                  <ProductCard product={product} />
+                </Link>
+                <CartModifier product={product} />
+              </div>
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
+
+      
     </>
   );
 };

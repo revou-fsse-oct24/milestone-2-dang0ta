@@ -10,14 +10,16 @@ const CategoryCard = ({
   className?: string;
 }) => {
   return (
-    <div
-      className={cn(
-        className,
-        "rounded overflow-hidden shadow-lg p-2 w-[400px]"
-      )}
-    >
-      <ImageLoader src={category.image} />
-      <h3 className="capitalize">{category.name}</h3>
+    <div className={cn(className, "w-[200px] overflow-hidden rounded-md")}>
+      <ImageLoader
+      width={200}
+      height={200}
+        className="h-auto w-auto object-cover transition-all hover:scale-105 aspect-square"
+        src={category.image}
+      />
+      <div className="flex flex-col gap-2 py-4">
+      <h3 className="font-medium leading-none capitalize">{category.name}</h3>
+      </div>
     </div>
   );
 };
