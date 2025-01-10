@@ -56,6 +56,14 @@ export async function getProduct({
   id: string;
 }): Promise<Response<Product>> {
   try {
+    const value = productsCache.get();
+    if (value) {
+        const raw = value.find(raw => raw.id === parseInt(id));
+        if (raw) {
+            return { status: "success", data: new Product(raw) };
+        }
+    }
+    
     const res = await fetch(getProductsURL(parseInt(id)));
     if (!res.ok) {
       console.warn(res.statusText, id);
