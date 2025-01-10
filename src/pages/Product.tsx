@@ -1,4 +1,4 @@
-import { getProduct } from "@actions/product";
+import { getProduct } from "@actions/products";
 import { useResponse } from "@hooks/useResponse";
 import { Product } from "@models/product";
 import { Navigate, useParams } from "react-router-dom";

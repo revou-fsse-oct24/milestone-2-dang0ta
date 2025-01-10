@@ -4,7 +4,6 @@ import { getCategoriesURL, getCategoryURL, Response } from "./api";
 import { Category, CategoryRaw } from "@models/category";
 import { TimedCache } from "@utils/timedCache";
 
-
 const categoriesCache = new TimedCache<CategoryRaw[]>("categories_cache");
 
 /**
@@ -12,11 +11,10 @@ const categoriesCache = new TimedCache<CategoryRaw[]>("categories_cache");
  * @returns {Promise<Response<Category[]>>} The response containing the list of categories.
  */
 export async function getCategories(): Promise<Response<Category[]>> {
-    
   try {
     const cached = categoriesCache.get();
     if (cached) {
-        return { status: "success", data: cached.map(raw => new Category(raw)) };
+      return { status: "success", data: skipErroneous(cached) };
     }
 
     const res = await fetch(getCategoriesURL());
@@ -29,7 +27,7 @@ export async function getCategories(): Promise<Response<Category[]>> {
       };
     }
 
-    const raws = (await res.json()) as CategoryRaw[]
+    const raws = (await res.json()) as CategoryRaw[];
     categoriesCache.set(raws);
     return { status: "success", data: skipErroneous(raws) };
   } catch (e) {
@@ -67,7 +65,7 @@ export async function getCategory({
       };
     }
 
-    const data = new Category((await res.json()));
+    const data = new Category(await res.json());
     return { status: "success", data };
   } catch (e) {
     const parsedErr = parseError(e);
@@ -79,18 +77,16 @@ export async function getCategory({
   }
 }
 
-
-
 const skipErroneous = (json: CategoryRaw[]): Category[] => {
-    const categories: Category[] = [];
+  const categories: Category[] = [];
 
-    json.forEach((raw)=> {
-        try {
-            categories.push(new Category(raw));
-        } catch(e) {
-            console.warn("Failed to parse category", e);
-        }
-    })
+  json.forEach((raw) => {
+    try {
+      categories.push(new Category(raw));
+    } catch (e) {
+      console.warn("Failed to parse category", e);
+    }
+  });
 
-    return categories;
-}
+  return categories;
+};

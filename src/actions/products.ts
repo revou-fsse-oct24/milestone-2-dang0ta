@@ -22,7 +22,7 @@ export async function getProducts({
   try {
     const cached = productsCache.get();
     if (cached) {
-      return { status: "success", data: cached.map(raw => new Product(raw)) };
+      return { status: "success", data: skipErroneous(cached) };
     }
 
     const res = await fetch(getProductsURL(offset, limit));
@@ -37,7 +37,7 @@ export async function getProducts({
 
     const raws = ((await res.json()) as ProductRaw[]);
     productsCache.set(raws);
-    return { status: "success", data: parseRawProducts(raws)};
+    return { status: "success", data: skipErroneous(raws)};
   } catch (e) {
     const parsedErr = parseError(e);
     return { status: "error", data: [], error: parsedErr.message };
@@ -86,7 +86,7 @@ export async function getProduct({
   }
 }
 
-const parseRawProducts = (json: ProductRaw[]): Product[] => {
+const skipErroneous = (json: ProductRaw[]): Product[] => {
     const products: Product[] = [];
 
     json.forEach((raw)=> {

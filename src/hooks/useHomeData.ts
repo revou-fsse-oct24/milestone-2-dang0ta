@@ -2,8 +2,8 @@ import { type Category } from "@models/category";
 import { type Product } from "@models/product";
 import { type Response } from "@actions/api";
 
-import { getProducts } from "@actions/product";
-import { getCategories } from "@actions/category";
+import { getProducts } from "@actions/products";
+import { getCategories } from "@actions/categories";
 import { parseError } from "@actions/exceptions";
 import { useCallback, useEffect, useState } from "react";
 
