@@ -10,18 +10,17 @@ const ProductCard = ({
   className?: string;
 }) => {
   return (
-    <div
-      className={cn(
-        className,
-        "rounded overflow-hidden shadow-lg p-2 w-[400px]"
-      )}
-    >
-      <ImageLoader src={product.mainImage} />
-      <h3 className="capitalize">{product.title}</h3>
-      <p className="text-ellipsis w-full whitespace-nowrap overflow-hidden">
+    <div className={cn(className, "w-[350px] overflow-hidden rounded-md")}>
+      <ImageLoader
+        className="h-auto w-auto object-cover transition-all hover:scale-105 aspect-[3/4]"
+        src={product.mainImage}
+      />
+      <div className="flex flex-col gap-2 py-4">
+      <h3 className="font-medium leading-none capitalize">{product.title}</h3>
+      <p className="text-xs text-muted-foreground text-ellipsis w-full whitespace-nowrap overflow-hidden">
         {product.description}
       </p>
-      
+      </div>
     </div>
   );
 };

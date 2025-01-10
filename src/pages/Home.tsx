@@ -1,3 +1,4 @@
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CartModifier } from "@components/CartModifier";
 import CategoryCard from "@components/CategoryCard";
 import ProductCard from "@components/ProductCard";
@@ -22,16 +23,19 @@ const Home = () => {
     <>
       <div>
         <h2>Top 10 products</h2>
-        <div className="flex flex-row flex-nowrap overflow-x-scroll whitespace-nowrap">
-          {state.products.map((product) => (
-            <div key={product.id} className="flex flex-col items-start">
-            <Link  to={`/product/${product.id}`}>
-              <ProductCard product={product} />
-            </Link>
-            <CartModifier product={product} />
+        <ScrollArea>
+            <div className="flex space-x-4 pb-4">
+            {state.products.map((product) => (
+                <div key={product.id} className="flex flex-col items-start">
+                <Link  to={`/product/${product.id}`}>
+                <ProductCard product={product} />
+                </Link>
+                <CartModifier product={product} />
+                </div>
+            ))}
             </div>
-          ))}
-        </div>
+            <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
 
       <div>
