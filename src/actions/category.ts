@@ -2,7 +2,7 @@ import { parseError } from "./exceptions";
 import { ERR_NOTFOUND } from "./const";
 import { getCategoriesURL, getCategoryURL, Response } from "./api";
 import { Category, CategoryRaw } from "@models/category";
-import { TimedCache } from "@utils/timed-cache";
+import { TimedCache } from "@utils/timedCache";
 
 
 const categoriesCache = new TimedCache<CategoryRaw[]>("categories_cache");
@@ -31,7 +31,7 @@ export async function getCategories(): Promise<Response<Category[]>> {
 
     const raws = (await res.json()) as CategoryRaw[]
     categoriesCache.set(raws);
-    return { status: "success", data: raws.map(raw => new Category(raw)) };
+    return { status: "success", data: skipErroneous(raws) };
   } catch (e) {
     const parsedErr = parseError(e);
     return { status: "error", data: [], error: parsedErr.message };
@@ -77,4 +77,20 @@ export async function getCategory({
       error: parsedErr.message,
     };
   }
+}
+
+
+
+const skipErroneous = (json: CategoryRaw[]): Category[] => {
+    const categories: Category[] = [];
+
+    json.forEach((raw)=> {
+        try {
+            categories.push(new Category(raw));
+        } catch(e) {
+            console.warn("Failed to parse category", e);
+        }
+    })
+
+    return categories;
 }

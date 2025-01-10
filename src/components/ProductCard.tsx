@@ -17,7 +17,7 @@ const ProductCard = ({
       )}
     >
       <ImageLoader src={product.mainImage} />
-      <h3>{product.title}</h3>
+      <h3 className="capitalize">{product.title}</h3>
       <p className="text-ellipsis w-full whitespace-nowrap overflow-hidden">
         {product.description}
       </p>

@@ -17,7 +17,7 @@ const CategoryCard = ({
       )}
     >
       <ImageLoader src={category.image} />
-      <h3>{category.name}</h3>
+      <h3 className="capitalize">{category.name}</h3>
     </div>
   );
 };

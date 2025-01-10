@@ -1,7 +1,7 @@
 import { Product, ProductRaw } from "@models/product";
 import { getProductsURL, Response } from "./api";
 import { parseError } from "./exceptions";
-import { TimedCache } from "@utils/timed-cache";
+import { TimedCache } from "@utils/timedCache";
 
 
 const productsCache = new TimedCache<ProductRaw[]>("products_cache");
@@ -37,7 +37,7 @@ export async function getProducts({
 
     const raws = ((await res.json()) as ProductRaw[]);
     productsCache.set(raws);
-    return { status: "success", data: raws.map(raw => new Product(raw)) };
+    return { status: "success", data: parseRawProducts(raws)};
   } catch (e) {
     const parsedErr = parseError(e);
     return { status: "error", data: [], error: parsedErr.message };
@@ -63,7 +63,7 @@ export async function getProduct({
             return { status: "success", data: new Product(raw) };
         }
     }
-    
+
     const res = await fetch(getProductsURL(parseInt(id)));
     if (!res.ok) {
       console.warn(res.statusText, id);
@@ -84,4 +84,18 @@ export async function getProduct({
       error: parsedErr.message,
     };
   }
+}
+
+const parseRawProducts = (json: ProductRaw[]): Product[] => {
+    const products: Product[] = [];
+
+    json.forEach((raw)=> {
+        try {
+            products.push(new Product(raw));
+        } catch(e) {
+            console.warn("Failed to parse product", e);
+        }
+    })
+
+    return products;
 }

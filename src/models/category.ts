@@ -1,3 +1,4 @@
+import { isNameInvalid } from "@utils/validate";
 
 /**
  * Represents a category.
@@ -23,6 +24,15 @@ export class Category {
     }
     
     constructor(category: CategoryRaw) {
+
+        if (!category.id) {
+            throw new Error("Invalid category ID");
+        }
+
+        if (isNameInvalid(category.name)) {
+            throw new Error("Invalid category name");
+        }
+
         this._id = category.id;
         this._name = category.name;
         this._image = category.image;
