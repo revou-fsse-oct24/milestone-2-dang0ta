@@ -1,4 +1,5 @@
 import { isNameInvalid } from "@utils/validate";
+import { Category, CategoryRaw } from "./category";
 
 const DEFAULT_IMAGE_URL = "https://placehold.co/400";
 
@@ -11,7 +12,7 @@ export type ProductRaw = {
   images: string[];
   description: string;
   price: number;
-  category: string;
+  category: CategoryRaw;
 };
 
 export class Product {
@@ -20,7 +21,7 @@ export class Product {
   private _images: string[];
   private _description: string;
   private _price: number;
-  private _category: string;
+  private _category: Category;
   private _mainImage: string;
 
   /**
@@ -33,7 +34,7 @@ export class Product {
       images: [],
       description: "",
       price: 0,
-      category: "",
+      category: Category.default(),
     });
   }
 
@@ -55,7 +56,7 @@ export class Product {
     this._images = product.images?.map(cleanImageURL);
     this._description = product.description;
     this._price = product.price;
-    this._category = product.category;
+    this._category = new Category(product.category);
     this._mainImage = this._images?.length
       ? this._images[0]
       : DEFAULT_IMAGE_URL;

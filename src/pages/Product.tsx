@@ -1,7 +1,9 @@
 import { getProduct } from "@actions/products";
+import { CartModifier } from "@components/CartModifier";
+import { ImageLoader } from "@components/ImageLoader";
 import { useResponse } from "@hooks/useResponse";
 import { Product } from "@models/product";
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 
 const ProductPage = () => {
   const { id } = useParams(); // Get the product ID from the URL parameters
@@ -32,9 +34,17 @@ const ProductPage = () => {
   const product = response.data; // Extract product data from response
   return (
     <div>
+      <ImageLoader src={product.mainImage} />
       <h1>{product.title}</h1>
       <p>{product.description}</p>
       <p>Price: {product.price}</p>
+      <div>
+        <Link to={`/products?category=${product.category.id}`}>
+          category: {product.category.name}
+        </Link>
+      </div>
+
+      <CartModifier product={product} />
     </div>
   );
 };
