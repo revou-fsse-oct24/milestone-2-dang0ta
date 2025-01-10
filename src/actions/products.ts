@@ -15,7 +15,6 @@ export async function queryProducts(
 ): Promise<Response<Product[]>> {
   try {
     const url = queryProductsURL(query)
-    console.log({url})
     const res = await fetch(url);
     if (!res.ok) {
       console.warn(res.statusText);

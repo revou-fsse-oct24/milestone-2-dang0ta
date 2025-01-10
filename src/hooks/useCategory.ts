@@ -16,9 +16,7 @@ export const useProductQuery = (intialQuery: ProductsQuery) => {
     const fetchProduct = useCallback(async () => {
         setState({status: "loading"})
         try {
-            console.log({query})
             const res = await queryProducts(query);
-            console.log({res})
             setState({status: "loaded", response: res})
         } catch (e) {
             console.warn({e})
