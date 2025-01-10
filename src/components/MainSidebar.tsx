@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { SearchForm } from "@components/search-form";
+import { SearchForm } from "@/components/SearchForm";
 import {
   GalleryVerticalEnd,
   Loader2Icon,
@@ -22,44 +22,23 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@components/ui/sidebar";
-import { NavUser } from "./nav-user";
+import { NavUser } from "./NavUser";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { getCategories } from "@/actions/categories";
 import { Category } from "@/models/category";
 import { useResponse } from "@/hooks/useResponse";
 import { useCart } from "@/contexts/CartContext";
 
-// This is sample data.
+// TODO: replace with real data
 const data = {
   user: {
     name: "test",
     email: "test@gmail.com",
     avatar: "string",
   },
-  navMain: [
-    {
-      title: "Products",
-      url: "#",
-      items: [
-        {
-          title: "All Products",
-          url: "/products",
-          isActive: true,
-        },
-        {
-          title: "Favourites",
-          url: "/favourites",
-        },
-        {
-          title: "Cart",
-          url: "/cart",
-        },
-      ],
-    },
-  ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function MainSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>

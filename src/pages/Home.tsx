@@ -32,7 +32,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 max-w-[83vw]">
         <h2 className="font-bold text-lg">Recently Purchased</h2>
         <ScrollArea>
           <div className="flex space-x-4 pb-4">

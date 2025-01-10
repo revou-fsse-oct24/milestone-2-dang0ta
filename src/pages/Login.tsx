@@ -1,4 +1,4 @@
-import { buttonVariants } from "@components/button"
+import { buttonVariants } from "@components/ui/button"
 import { UserAuthForm } from "@/components/UserAuthForm"
 import { cn } from "@/utils/cn";
 import { Link } from "react-router-dom";
