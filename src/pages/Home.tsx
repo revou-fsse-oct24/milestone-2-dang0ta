@@ -21,8 +21,8 @@ const Home = () => {
 
   return (
     <>
-    <div>
-        <h2>Categories</h2>
+    <div className="flex flex-col gap-4">
+        <h2 className="font-bold text-lg">Categories</h2>
         <div className="flex flex-row space-x-4 p-4">
           {state.categories.map((category) => (
             <Link key={category.id} to={`/products?category=${category.id}`}>
@@ -32,8 +32,8 @@ const Home = () => {
         </div>
       </div>
 
-      <div>
-        <h2>Top 10 products</h2>
+      <div className="flex flex-col gap-4">
+        <h2 className="font-bold text-lg">Recently Purchased</h2>
         <ScrollArea>
           <div className="flex space-x-4 pb-4">
             {state.products.map((product) => (
