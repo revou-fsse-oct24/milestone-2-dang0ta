@@ -17,7 +17,7 @@ export const CartModifier = ({ product }: { product: Product }) => {
     removeItem(product.id);
   };
   return (
-    <div className="flex flex-row gap-2 items-center p-2 border rounded-lg">
+    <div className="flex flex-row  gap-2 w-fit justify-start items-center p-2 border rounded-lg">
       <Button variant="ghost" onClick={() => decrement()}>
         <MinusCircleIcon size={16} />
       </Button>
