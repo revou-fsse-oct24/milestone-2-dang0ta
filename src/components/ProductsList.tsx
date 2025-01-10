@@ -1,4 +1,4 @@
-import { useProductQuery } from "@hooks/useCategory";
+import { useProductQuery } from "@/hooks/useProductQuery";
 import { Link, useSearchParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import { useEffect } from "react";

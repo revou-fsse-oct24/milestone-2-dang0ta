@@ -1,6 +1,6 @@
 import { useCart } from "@contexts/CartContext";
 import { Product } from "@models/product";
-import { Button } from "@components/button";
+import { Button } from "@components/ui/button";
 import { MinusCircleIcon, PlusCircleIcon } from "lucide-react";
 
 export const CartModifier = ({ product }: { product: Product }) => {
@@ -18,11 +18,11 @@ export const CartModifier = ({ product }: { product: Product }) => {
   };
   return (
     <div className="flex flex-row  gap-2 w-fit justify-start items-center p-2 border rounded-lg">
-      <Button variant="ghost" onClick={() => decrement()}>
+      <Button variant="secondary" size="icon" onClick={() => decrement()}>
         <MinusCircleIcon size={16} />
       </Button>
       <span className="inline-block text-lg font-semibold min-w-4 text-center">{count}</span>
-      <Button variant="ghost" onClick={() => increment()}>
+      <Button variant="secondary" size="icon" onClick={() => increment()}>
         <PlusCircleIcon size={16} />
       </Button>
     </div>
