@@ -64,8 +64,18 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   };
 
   const total = (): number => {
-    return Object.entries(items).reduce((acc, cur) => {
-      acc += cur[1].quantity * (cur[1].product.price || 0);
+    console.log({items})
+    return Object.keys(items).reduce((acc, cur) => {
+        const keyn = Number(cur)
+        if (Number.isNaN(keyn)) {
+            return acc;
+        }
+
+        const item = items[keyn]
+
+        console.log({item, q: item.quantity, price: item.product.price})
+
+      acc += item.quantity * (item.product.price || 0);
       return acc;
     }, 0);
   };

@@ -10,9 +10,9 @@ export type CategoryRaw = {
 };
 
 export class Category {
-  private _id: number;
-  private _name: string;
-  private _image: string;
+  readonly id: number;
+  readonly name: string;
+  readonly image: string;
 
   static default(): Category {
     return new Category({
@@ -31,20 +31,8 @@ export class Category {
       throw new Error("Invalid category name");
     }
 
-    this._id = category.id;
-    this._name = category.name;
-    this._image = category.image;
-  }
-
-  get id() {
-    return this._id;
-  }
-
-  get name() {
-    return this._name;
-  }
-
-  get image() {
-    return this._image;
+    this.id = category.id;
+    this.name = category.name;
+    this.image = category.image;
   }
 }

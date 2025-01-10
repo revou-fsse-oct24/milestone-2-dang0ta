@@ -16,13 +16,13 @@ export type ProductRaw = {
 };
 
 export class Product {
-  private _id: number;
-  private _title: string;
-  private _images: string[];
-  private _description: string;
-  private _price: number;
-  private _category: Category;
-  private _mainImage: string;
+  readonly id: number;
+  readonly title: string;
+  readonly images: string[];
+  readonly description: string;
+  readonly price: number;
+  readonly category: Category;
+  readonly mainImage: string;
 
   /**
    * Returns a default Product instance.
@@ -51,43 +51,15 @@ export class Product {
       throw new Error("Invalid product name");
     }
 
-    this._id = product.id;
-    this._title = product.title;
-    this._images = product.images?.map(cleanImageURL);
-    this._description = product.description;
-    this._price = product.price;
-    this._category = new Category(product.category);
-    this._mainImage = this._images?.length
-      ? this._images[0]
+    this.id = product.id;
+    this.title = product.title;
+    this.images = product.images?.map(cleanImageURL);
+    this.description = product.description;
+    this.price = product.price;
+    this.category = new Category(product.category);
+    this.mainImage = this.images?.length
+      ? this.images[0]
       : DEFAULT_IMAGE_URL;
-  }
-
-  get id() {
-    return this._id;
-  }
-
-  get title() {
-    return this._title;
-  }
-
-  get images() {
-    return this._images;
-  }
-
-  get description() {
-    return this._description;
-  }
-
-  get price() {
-    return this._price;
-  }
-
-  get category() {
-    return this._category;
-  }
-
-  get mainImage() {
-    return this._mainImage;
   }
 }
 
