@@ -1,9 +1,8 @@
 import { Product, ProductRaw } from "@models/product";
-import { getProductsURL, Response } from "./api";
+import { getProductsURL, getProductURL, Response } from "./api";
 import { parseError } from "./exceptions";
 import { TimedCache } from "@utils/timedCache";
 import { skipErroneous } from "@utils/skipErroneous";
-
 
 const productsCache = new TimedCache<ProductRaw[]>("products_cache");
 
@@ -23,7 +22,10 @@ export async function getProducts({
   try {
     const cached = productsCache.get();
     if (cached) {
-      return { status: "success", data: skipErroneous<ProductRaw, Product>(cached, Product) };
+      return {
+        status: "success",
+        data: skipErroneous<ProductRaw, Product>(cached, Product),
+      };
     }
 
     const res = await fetch(getProductsURL(offset, limit));
@@ -36,9 +38,12 @@ export async function getProducts({
       };
     }
 
-    const raws = ((await res.json()) as ProductRaw[]);
+    const raws = (await res.json()) as ProductRaw[];
     productsCache.set(raws);
-    return { status: "success", data: skipErroneous<ProductRaw, Product>(raws, Product)};
+    return {
+      status: "success",
+      data: skipErroneous<ProductRaw, Product>(raws, Product),
+    };
   } catch (e) {
     const parsedErr = parseError(e);
     return { status: "error", data: [], error: parsedErr.message };
@@ -59,13 +64,18 @@ export async function getProduct({
   try {
     const value = productsCache.get();
     if (value) {
-        const raw = value.find(raw => raw.id === parseInt(id));
-        if (raw) {
-            return { status: "success", data: new Product(raw) };
-        }
+      const raw = value.find((raw) => raw.id === parseInt(id));
+      if (raw) {
+        const product = new Product(raw)
+        return { status: "success", data: product };
+      }
     }
+  } catch (e) {
+    console.warn("cache value has error", { error: e, id });
+  }
 
-    const res = await fetch(getProductsURL(parseInt(id)));
+  try {
+    const res = await fetch(getProductURL({id}));
     if (!res.ok) {
       console.warn(res.statusText, id);
       return {
@@ -75,7 +85,7 @@ export async function getProduct({
       };
     }
 
-    const data = new Product(await res.json()); 
+    const data = new Product(await res.json());
     return { status: "success", data };
   } catch (e) {
     const parsedErr = parseError(e);
