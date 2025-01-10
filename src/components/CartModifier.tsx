@@ -1,5 +1,6 @@
 import { useCart } from "@contexts/CartContext";
 import { Product } from "@models/product";
+import { MinusCircleIcon, PlusCircleIcon } from "lucide-react";
 
 export const CartModifier = ({product}: {product: Product}) => {
     const {get, addItem, removeItem} = useCart();
@@ -14,9 +15,9 @@ export const CartModifier = ({product}: {product: Product}) => {
     const decrement = () => {
         removeItem(product.id)
     }
-    return (<>
-    <button onClick={() => decrement()}>remove</button>
+    return (<div className="flex flex-row gap-2 items-center">
+    <button onClick={() => decrement()}><MinusCircleIcon size={16} /></button>
     {count}
-    <button onClick={() => increment()}>add</button>
-    </>)
+    <button onClick={() => increment()}><PlusCircleIcon size={16} /></button>
+    </div>)
 }
