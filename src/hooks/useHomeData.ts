@@ -2,7 +2,7 @@ import { type Category } from "@models/category";
 import { type Product } from "@models/product";
 import { type Response } from "@actions/api";
 
-import { getProducts } from "@actions/products";
+import { getLatestProducts } from "@actions/products";
 import { getCategories } from "@actions/categories";
 import { parseError } from "@actions/exceptions";
 import { useCallback, useEffect, useState } from "react";
@@ -31,7 +31,7 @@ export const useHomeData = () => {
       const promises: [
         Promise<Response<Category[]>>,
         Promise<Response<Product[]>>
-      ] = [getCategories(), getProducts({})];
+      ] = [getCategories(), getLatestProducts()];
       const [categoriesRes, productsRes] = await Promise.all(promises);
       if (categoriesRes.status === "error") {
         throw new Error(categoriesRes.error);

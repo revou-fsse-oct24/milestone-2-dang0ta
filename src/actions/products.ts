@@ -6,19 +6,15 @@ import { skipErroneous } from "@utils/skipErroneous";
 
 const productsCache = new TimedCache<ProductRaw[]>("products_cache");
 
+
+
 /**
- * Fetches a list of products from the API.
+ * Fetches a list of latest 10 products from the API.
  * @param {Object} params - The parameters for fetching products.
  * @param {number} params.offset - The offset for pagination.
  * @returns {Promise<Response<Product[]>>} The response containing the list of products.
  */
-export async function getProducts({
-  offset,
-  limit,
-}: {
-  offset?: number;
-  limit?: number;
-}): Promise<Response<Product[]>> {
+export async function getLatestProducts(): Promise<Response<Product[]>> {
   try {
     const cached = productsCache.get();
     if (cached) {
@@ -28,7 +24,7 @@ export async function getProducts({
       };
     }
 
-    const res = await fetch(getProductsURL(offset, limit));
+    const res = await fetch(getProductsURL());
     if (!res.ok) {
       console.warn(res.statusText);
       return {
