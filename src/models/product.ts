@@ -1,6 +1,4 @@
-
-// TODO: add placeholder as the default image
-const DEFAULT_IMAGE_URL = 'no-image';
+const DEFAULT_IMAGE_URL = 'https://placehold.co/400';
 
 /**
  * Represents a product.
@@ -23,6 +21,9 @@ export class Product {
     private _category: string;
     private _mainImage: string;
 
+    /**
+     * Returns a default Product instance.
+     */
     static default(): Product {
         return new Product({
             id: 0,
@@ -34,14 +35,18 @@ export class Product {
         })
     }
 
+    /**
+     * Constructs a Product instance from a raw product object.
+     * @param product - The raw product data
+     */
     constructor(product: ProductRaw) {
         this._id = product.id;
         this._title = product.title;
-        this._images = product.images.map(cleanImageURL);
+        this._images = product.images?.map(cleanImageURL);
         this._description = product.description;
         this._price = product.price;
         this._category = product.category;
-        this._mainImage = this._images.length ? this._images[0] : DEFAULT_IMAGE_URL;
+        this._mainImage = this._images?.length ? this._images[0] : DEFAULT_IMAGE_URL;
     }
 
     get id() {
@@ -73,6 +78,11 @@ export class Product {
     }
 }
 
+/**
+ * Cleans the image URL by parsing it if necessary.
+ * @param images - The image URL or JSON string
+ * @returns The cleaned image URL
+ */
 const cleanImageURL = (images: string): string => {
     try {
         const stringified = JSON.parse(images);
