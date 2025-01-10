@@ -26,7 +26,6 @@ export class Category {
         this._id = category.id;
         this._name = category.name;
         this._image = category.image;
-        console.log({image: category.image})
     }
     
     get id() {
