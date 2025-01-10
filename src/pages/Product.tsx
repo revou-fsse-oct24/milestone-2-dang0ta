@@ -38,9 +38,12 @@ const ProductPage = () => {
       <h1>{product.title}</h1>
       <p>{product.description}</p>
       <p>Price: {product.price}</p>
-      <div>
+      <div className="flex flex-col gap-2">
+        <ImageLoader src={product.category.image} width={64} height={64} />
         <Link to={`/products?category=${product.category.id}`}>
-          category: {product.category.name}
+          <span className="font-semibold text-lg">
+            {product.category.name}
+          </span>
         </Link>
       </div>
 

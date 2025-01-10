@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-const DEFAULT_IMAGE_URL = "https://placehold.co/400";
+const DEFAULT_IMAGE_BASE_URL = new URL("https://placehold.co")
 
 /**
  * ImageLoader component handles image loading with a fallback for errors, 
@@ -11,20 +11,30 @@ const DEFAULT_IMAGE_URL = "https://placehold.co/400";
  * @param alt - The alt text for the image
  * @returns an image component
  */
-export function ImageLoader({ src, alt }: { src: string; alt?: string }) {
+export function ImageLoader({ src, alt, width, height }: { src: string; alt?: string, width?: number, height?: number }) {
   const [img, setImg] = useState(src);
+
+  const getPlaceholderImageURL = (): string => {
+    const w = width ? width : 400;
+    const h =  height ? height : 400;
+
+    return new URL(`${w}x${h}`,DEFAULT_IMAGE_BASE_URL).toString();
+
+  }
 
   /**
    * Handles image loading errors by setting a default image URL.
    */
   const onError = () => {
-    setImg(DEFAULT_IMAGE_URL);
+    setImg(getPlaceholderImageURL());
   };
+
+  
 
   return (
     <LazyLoadImage
-      width={400}
-      height={400}
+      width={width ?? 400}
+      height={height ?? 400}
       src={img}
       alt={alt}
       onError={onError}
