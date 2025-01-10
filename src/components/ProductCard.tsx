@@ -1,5 +1,6 @@
 import { type Product } from "@models/product";
 import { cn } from "@utils/cn";
+import { ImageLoader } from "@components/ImageLoader";
 
 const ProductCard = ({
   product,
@@ -15,7 +16,7 @@ const ProductCard = ({
         "rounded overflow-hidden shadow-lg p-2 w-[400px]"
       )}
     >
-      <img width={400} height={400} src={product.mainImage} alt="" />
+      <ImageLoader src={product.mainImage} />
       <h3>{product.title}</h3>
       <p className="text-ellipsis w-full whitespace-nowrap overflow-hidden">
         {product.description}

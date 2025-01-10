@@ -1,5 +1,6 @@
 import { type Category } from "@models/category";
 import { cn } from "@utils/cn";
+import { ImageLoader } from "@components/ImageLoader";
 
 const CategoryCard = ({
   category,
@@ -15,7 +16,7 @@ const CategoryCard = ({
         "rounded overflow-hidden shadow-lg p-2 w-[400px]"
       )}
     >
-      <img width={400} height={400} src={category.image} alt="" />
+      <ImageLoader src={category.image} />
       <h3>{category.name}</h3>
     </div>
   );
