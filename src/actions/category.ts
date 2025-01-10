@@ -2,14 +2,23 @@ import { parseError } from "./exceptions";
 import { ERR_NOTFOUND } from "./const";
 import { getCategoriesURL, getCategoryURL, Response } from "./api";
 import { Category, CategoryRaw } from "@models/category";
+import { TimedCache } from "@utils/timed-cache";
 
+
+const categoriesCache = new TimedCache<CategoryRaw[]>("categories_cache");
 
 /**
  * Fetches a list of categories from the API.
  * @returns {Promise<Response<Category[]>>} The response containing the list of categories.
  */
 export async function getCategories(): Promise<Response<Category[]>> {
+    
   try {
+    const cached = categoriesCache.get();
+    if (cached) {
+        return { status: "success", data: cached.map(raw => new Category(raw)) };
+    }
+
     const res = await fetch(getCategoriesURL());
     if (!res.ok) {
       console.warn(res.statusText);
@@ -20,14 +29,14 @@ export async function getCategories(): Promise<Response<Category[]>> {
       };
     }
 
-    const data = ((await res.json()) as CategoryRaw[]).map(raw => new Category(raw));
-    return { status: "success", data };
+    const raws = (await res.json()) as CategoryRaw[]
+    categoriesCache.set(raws);
+    return { status: "success", data: raws.map(raw => new Category(raw)) };
   } catch (e) {
     const parsedErr = parseError(e);
     return { status: "error", data: [], error: parsedErr.message };
   }
 }
-
 /**
  * Fetches a single category by its ID from the API.
  * @param {Object} params - The parameters for fetching the category.

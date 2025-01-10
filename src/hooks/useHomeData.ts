@@ -22,7 +22,7 @@ export const useHomeData = () => {
     loading: false,
   });
 
-  const fetchData = useCallback(async () => {
+  const update = useCallback(async () => {
     setData({
       ...data,
       loading: true,
@@ -55,12 +55,12 @@ export const useHomeData = () => {
         error: parsedErr.message,
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    update();
+  }, [update]);
   return {
     data,
   };

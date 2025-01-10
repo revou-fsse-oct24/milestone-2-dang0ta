@@ -33,13 +33,12 @@ const Home = () => {
       <div>
         <h2>Categories</h2>
         <div className="flex flex-row flex-nowrap overflow-x-scroll whitespace-nowrap">
-        {state.categories.map((category) => (
-          <Link key={category.id} to={`/products?category=${category.id}`}>
-          <CategoryCard category={category} />
-          </Link>
-        ))}
+          {state.categories.map((category) => (
+            <Link key={category.id} to={`/products?category=${category.id}`}>
+              <CategoryCard category={category} />
+            </Link>
+          ))}
         </div>
-        
       </div>
     </>
   );

@@ -1,7 +1,10 @@
 import { Product, ProductRaw } from "@models/product";
 import { getProductsURL, Response } from "./api";
 import { parseError } from "./exceptions";
+import { TimedCache } from "@utils/timed-cache";
 
+
+const productsCache = new TimedCache<ProductRaw[]>("products_cache");
 
 /**
  * Fetches a list of products from the API.
@@ -17,6 +20,11 @@ export async function getProducts({
   limit?: number;
 }): Promise<Response<Product[]>> {
   try {
+    const cached = productsCache.get();
+    if (cached) {
+      return { status: "success", data: cached.map(raw => new Product(raw)) };
+    }
+
     const res = await fetch(getProductsURL(offset, limit));
     if (!res.ok) {
       console.warn(res.statusText);
@@ -27,8 +35,9 @@ export async function getProducts({
       };
     }
 
-    const data = ((await res.json()) as ProductRaw[]).map(raw => new Product(raw));
-    return { status: "success", data };
+    const raws = ((await res.json()) as ProductRaw[]);
+    productsCache.set(raws);
+    return { status: "success", data: raws.map(raw => new Product(raw)) };
   } catch (e) {
     const parsedErr = parseError(e);
     return { status: "error", data: [], error: parsedErr.message };
