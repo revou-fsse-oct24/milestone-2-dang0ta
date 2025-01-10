@@ -1,4 +1,5 @@
-import { Product, getProducts } from "@actions/product";
+import { Product } from "@models/product";
+import { getProducts } from "@actions/product";
 import { Category, getCategories } from "@actions/category";
 import { Response } from "@actions/api";
 import { parseError } from "@actions/exceptions";
@@ -10,6 +11,7 @@ type HomeData = {
   error?: string;
   loading: boolean;
 };
+
 export const useHomeData = () => {
   const [data, setData] = useState<HomeData>({
     products: [],
@@ -19,7 +21,6 @@ export const useHomeData = () => {
   });
 
   const fetchData = useCallback(async () => {
-    console.log('fetching data')
     setData({
       ...data,
       loading: true,

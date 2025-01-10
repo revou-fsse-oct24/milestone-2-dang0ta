@@ -1,32 +1,7 @@
+import { Product, ProductRaw } from "@models/product";
 import { getProductsURL, Response } from "./api";
 import { parseError } from "./exceptions";
 
-/**
- * Represents a product.
- */
-export type Product = {
-  id: number;
-  title: string;
-  images: string[];
-  description: string;
-  price: number;
-  category: string;
-};
-
-/**
- * Returns a default product object.
- * @returns {Product} The default product object.
- */
-const defaultProduct = (): Product => {
-  return {
-    id: 0,
-    title: "",
-    images: [],
-    description: "",
-    price: 0,
-    category: "",
-  };
-};
 
 /**
  * Fetches a list of products from the API.
@@ -52,7 +27,7 @@ export async function getProducts({
       };
     }
 
-    const data = (await res.json()) as Product[];
+    const data = ((await res.json()) as ProductRaw[]).map(raw => new Product(raw));
     return { status: "success", data };
   } catch (e) {
     const parsedErr = parseError(e);
@@ -77,18 +52,18 @@ export async function getProduct({
       console.warn(res.statusText, id);
       return {
         status: "error",
-        data: defaultProduct(),
+        data: Product.default(),
         error: "An error occurred while fetching the data",
       };
     }
 
-    const data = (await res.json()) as Product;
+    const data = new Product(await res.json()); 
     return { status: "success", data };
   } catch (e) {
     const parsedErr = parseError(e);
     return {
       status: "error",
-      data: defaultProduct(),
+      data: Product.default(),
       error: parsedErr.message,
     };
   }

@@ -1,3 +1,4 @@
+import ProductCard from "@components/ProductCard";
 import { useHomeData } from "@hooks/useHomeData";
 
 /**
@@ -5,7 +6,6 @@ import { useHomeData } from "@hooks/useHomeData";
  */
 const Home = () => {
   const { data: state } = useHomeData();
-  console.log(state)
 
   if (state.loading) {
     return <>loading products ... </>;
@@ -19,9 +19,9 @@ const Home = () => {
     <>
       <div>
         <h2>Top 10 products</h2>
-        {state.products.map((product) => (
-          <h3 key={product.id}>{product.title}</h3>
-        ))}
+        <div className="flex flex-row flex-nowrap overflow-x-scroll whitespace-nowrap">
+        {state.products.map((product) => <ProductCard key={product.id} product={product} className="min-w-md" />)}
+        </div>
       </div>
 
       <div>
