@@ -12,6 +12,7 @@
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-lazy-load-image-component": "^1.6.3",
     "react-router-dom": "^7.1.1"
   },
   "devDependencies": {
@@ -19,6 +20,7 @@
     "@types/node": "^22.10.5",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "@types/react-lazy-load-image-component": "^1.6.4",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
     "clsx": "^2.1.1",
