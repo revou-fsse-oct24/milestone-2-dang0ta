@@ -3,6 +3,7 @@ import { ERR_NOTFOUND } from "./const";
 import { getCategoriesURL, getCategoryURL, Response } from "./api";
 import { Category, CategoryRaw } from "@models/category";
 import { TimedCache } from "@utils/timedCache";
+import { skipErroneous } from "@utils/skipErroneous";
 
 const categoriesCache = new TimedCache<CategoryRaw[]>("categories_cache");
 
@@ -14,7 +15,7 @@ export async function getCategories(): Promise<Response<Category[]>> {
   try {
     const cached = categoriesCache.get();
     if (cached) {
-      return { status: "success", data: skipErroneous(cached) };
+      return { status: "success", data: skipErroneous<CategoryRaw, Category>(cached, Category) };
     }
 
     const res = await fetch(getCategoriesURL());
@@ -29,7 +30,7 @@ export async function getCategories(): Promise<Response<Category[]>> {
 
     const raws = (await res.json()) as CategoryRaw[];
     categoriesCache.set(raws);
-    return { status: "success", data: skipErroneous(raws) };
+    return { status: "success", data: skipErroneous<CategoryRaw, Category>(raws, Category) };
   } catch (e) {
     const parsedErr = parseError(e);
     return { status: "error", data: [], error: parsedErr.message };
@@ -76,17 +77,3 @@ export async function getCategory({
     };
   }
 }
-
-const skipErroneous = (json: CategoryRaw[]): Category[] => {
-  const categories: Category[] = [];
-
-  json.forEach((raw) => {
-    try {
-      categories.push(new Category(raw));
-    } catch (e) {
-      console.warn("Failed to parse category", e);
-    }
-  });
-
-  return categories;
-};

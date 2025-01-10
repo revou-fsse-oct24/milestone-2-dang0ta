@@ -2,6 +2,7 @@ import { Product, ProductRaw } from "@models/product";
 import { getProductsURL, Response } from "./api";
 import { parseError } from "./exceptions";
 import { TimedCache } from "@utils/timedCache";
+import { skipErroneous } from "@utils/skipErroneous";
 
 
 const productsCache = new TimedCache<ProductRaw[]>("products_cache");
@@ -22,7 +23,7 @@ export async function getProducts({
   try {
     const cached = productsCache.get();
     if (cached) {
-      return { status: "success", data: skipErroneous(cached) };
+      return { status: "success", data: skipErroneous<ProductRaw, Product>(cached, Product) };
     }
 
     const res = await fetch(getProductsURL(offset, limit));
@@ -37,7 +38,7 @@ export async function getProducts({
 
     const raws = ((await res.json()) as ProductRaw[]);
     productsCache.set(raws);
-    return { status: "success", data: skipErroneous(raws)};
+    return { status: "success", data: skipErroneous<ProductRaw, Product>(raws, Product)};
   } catch (e) {
     const parsedErr = parseError(e);
     return { status: "error", data: [], error: parsedErr.message };
@@ -84,18 +85,4 @@ export async function getProduct({
       error: parsedErr.message,
     };
   }
-}
-
-const skipErroneous = (json: ProductRaw[]): Product[] => {
-    const products: Product[] = [];
-
-    json.forEach((raw)=> {
-        try {
-            products.push(new Product(raw));
-        } catch(e) {
-            console.warn("Failed to parse product", e);
-        }
-    })
-
-    return products;
 }
