@@ -24,8 +24,8 @@ const Home = () => {
         <h2>Top 10 products</h2>
         <div className="flex flex-row flex-nowrap overflow-x-scroll whitespace-nowrap">
           {state.products.map((product) => (
-            <div className="flex flex-col items-start">
-            <Link key={product.id} to={`/product/${product.id}`}>
+            <div key={product.id} className="flex flex-col items-start">
+            <Link  to={`/product/${product.id}`}>
               <ProductCard product={product} />
             </Link>
             <CartModifier product={product} />

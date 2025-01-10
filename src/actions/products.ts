@@ -9,12 +9,13 @@ import {
 import { parseError } from "./exceptions";
 import { TimedCache } from "@utils/timedCache";
 import { skipErroneous } from "@utils/skipErroneous";
+import { uniqueOnly } from "@utils/uniqueOnly";
 
 export async function queryProducts(
   query: ProductsQuery
 ): Promise<Response<Product[]>> {
   try {
-    const url = queryProductsURL(query)
+    const url = queryProductsURL(query);
     const res = await fetch(url);
     if (!res.ok) {
       console.warn(res.statusText);
@@ -28,7 +29,7 @@ export async function queryProducts(
     const raws = (await res.json()) as ProductRaw[];
     return {
       status: "success",
-      data: skipErroneous<ProductRaw, Product>(raws, Product),
+      data: uniqueOnly(skipErroneous<ProductRaw, Product>(raws, Product))
     };
   } catch (e) {
     const parsedErr = parseError(e);
@@ -50,7 +51,8 @@ export async function getLatestProducts(): Promise<Response<Product[]>> {
     if (cached) {
       return {
         status: "success",
-        data: skipErroneous<ProductRaw, Product>(cached, Product),
+        data: uniqueOnly(skipErroneous<ProductRaw, Product>(cached, Product))
+          
       };
     }
 
@@ -68,7 +70,7 @@ export async function getLatestProducts(): Promise<Response<Product[]>> {
     productsCache.set(raws);
     return {
       status: "success",
-      data: skipErroneous<ProductRaw, Product>(raws, Product),
+      data: uniqueOnly(skipErroneous<ProductRaw, Product>(raws, Product))
     };
   } catch (e) {
     const parsedErr = parseError(e);

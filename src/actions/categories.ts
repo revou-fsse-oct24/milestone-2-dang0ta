@@ -4,6 +4,7 @@ import { getCategoriesURL, getCategoryURL, Response } from "./api";
 import { Category, CategoryRaw } from "@models/category";
 import { TimedCache } from "@utils/timedCache";
 import { skipErroneous } from "@utils/skipErroneous";
+import { uniqueOnly } from "@utils/uniqueOnly";
 
 const categoriesCache = new TimedCache<CategoryRaw[]>("categories_cache");
 
@@ -15,7 +16,10 @@ export async function getCategories(): Promise<Response<Category[]>> {
   try {
     const cached = categoriesCache.get();
     if (cached) {
-      return { status: "success", data: skipErroneous<CategoryRaw, Category>(cached, Category) };
+      return {
+        status: "success",
+        data: uniqueOnly(skipErroneous<CategoryRaw, Category>(cached, Category))
+      };
     }
 
     const res = await fetch(getCategoriesURL());
@@ -30,7 +34,10 @@ export async function getCategories(): Promise<Response<Category[]>> {
 
     const raws = (await res.json()) as CategoryRaw[];
     categoriesCache.set(raws);
-    return { status: "success", data: skipErroneous<CategoryRaw, Category>(raws, Category) };
+    return {
+      status: "success",
+      data: uniqueOnly(skipErroneous<CategoryRaw, Category>(raws, Category))
+    };
   } catch (e) {
     const parsedErr = parseError(e);
     return { status: "error", data: [], error: parsedErr.message };
