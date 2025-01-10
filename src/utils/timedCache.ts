@@ -1,3 +1,4 @@
+
 const FIVE_MINUTES = 5 * 60 * 1000;
 
 const getCacheKey = (roundingValue: number = FIVE_MINUTES) =>
@@ -46,3 +47,4 @@ export class TimedCache<T> {
     return value;
   }
 }
+

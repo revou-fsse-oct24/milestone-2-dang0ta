@@ -1,12 +1,43 @@
 import { Product, ProductRaw } from "@models/product";
-import { getProductsURL, getProductURL, Response } from "./api";
+import {
+  getProductsURL,
+  getProductURL,
+  Response,
+  ProductsQuery,
+  queryProductsURL,
+} from "./api";
 import { parseError } from "./exceptions";
 import { TimedCache } from "@utils/timedCache";
 import { skipErroneous } from "@utils/skipErroneous";
 
+export async function queryProducts(
+  query: ProductsQuery
+): Promise<Response<Product[]>> {
+  try {
+    const url = queryProductsURL(query)
+    console.log({url})
+    const res = await fetch(url);
+    if (!res.ok) {
+      console.warn(res.statusText);
+      return {
+        status: "error",
+        data: [],
+        error: "An error occurred while fetching the data",
+      };
+    }
+
+    const raws = (await res.json()) as ProductRaw[];
+    return {
+      status: "success",
+      data: skipErroneous<ProductRaw, Product>(raws, Product),
+    };
+  } catch (e) {
+    const parsedErr = parseError(e);
+    return { status: "error", data: [], error: parsedErr.message };
+  }
+}
+
 const productsCache = new TimedCache<ProductRaw[]>("products_cache");
-
-
 
 /**
  * Fetches a list of latest 10 products from the API.
@@ -62,7 +93,7 @@ export async function getProduct({
     if (value) {
       const raw = value.find((raw) => raw.id === parseInt(id));
       if (raw) {
-        const product = new Product(raw)
+        const product = new Product(raw);
         return { status: "success", data: product };
       }
     }
@@ -71,7 +102,7 @@ export async function getProduct({
   }
 
   try {
-    const res = await fetch(getProductURL({id}));
+    const res = await fetch(getProductURL({ id }));
     if (!res.ok) {
       console.warn(res.statusText, id);
       return {
