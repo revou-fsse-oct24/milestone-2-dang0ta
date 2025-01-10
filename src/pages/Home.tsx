@@ -1,3 +1,4 @@
+import CategoryCard from "@components/CategoryCard";
 import ProductCard from "@components/ProductCard";
 import { useHomeData } from "@hooks/useHomeData";
 
@@ -26,9 +27,7 @@ const Home = () => {
 
       <div>
         <h2>Categories</h2>
-        {state.categories.map((category) => (
-          <h3 key={category.id}>{category.name}</h3>
-        ))}
+        {state.categories.map((category) => <CategoryCard key={category.id} category={category} />)}
       </div>
     </>
   );

@@ -1,27 +1,8 @@
 import { parseError } from "./exceptions";
 import { ERR_NOTFOUND } from "./const";
 import { getCategoriesURL, getCategoryURL, Response } from "./api";
+import { Category, CategoryRaw } from "@models/category";
 
-/**
- * Represents a category.
- */
-export type Category = {
-  id: number;
-  name: string;
-  image: string;
-};
-
-/**
- * Returns a default category object.
- * @returns {Category} The default category object.
- */
-const defaultCategory = (): Category => {
-  return {
-    id: 0,
-    name: "",
-    image: "",
-  };
-};
 
 /**
  * Fetches a list of categories from the API.
@@ -39,7 +20,7 @@ export async function getCategories(): Promise<Response<Category[]>> {
       };
     }
 
-    const data = (await res.json()) as Category[];
+    const data = ((await res.json()) as CategoryRaw[]).map(raw => new Category(raw));
     return { status: "success", data };
   } catch (e) {
     const parsedErr = parseError(e);
@@ -65,25 +46,25 @@ export async function getCategory({
       if (res.status === 404) {
         return {
           status: "error",
-          data: defaultCategory(),
+          data: Category.default(),
           error: ERR_NOTFOUND,
         };
       }
 
       return {
         status: "error",
-        data: defaultCategory(),
+        data: Category.default(),
         error: "An error occurred while fetching the data",
       };
     }
 
-    const data = (await res.json()) as Category;
+    const data = new Category((await res.json()));
     return { status: "success", data };
   } catch (e) {
     const parsedErr = parseError(e);
     return {
       status: "error",
-      data: defaultCategory(),
+      data: Category.default(),
       error: parsedErr.message,
     };
   }

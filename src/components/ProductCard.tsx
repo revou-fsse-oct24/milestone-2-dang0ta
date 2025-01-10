@@ -1,4 +1,4 @@
-import { Product } from "@models/product";
+import { type Product } from "@models/product";
 import { cn } from "@utils/cn";
 
 const ProductCard = ({product, className}: {product: Product, className?: string}) => {
