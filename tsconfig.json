@@ -45,13 +45,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@actions/*": ["src/actions/*"],
-      "@pages/*": ["src/pages/*"],
-      "@components/*": ["src/components/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@models/*": ["src/models/*"],
-      "@utils/*": ["src/utils/*"],
-      "@contexts/*": ["src/contexts/*"]
     }
   }
 }
