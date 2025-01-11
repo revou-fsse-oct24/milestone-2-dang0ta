@@ -68,7 +68,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const total = (): number => {
-    console.log({ items });
     return Object.keys(items).reduce((acc, cur) => {
       const keyn = Number(cur);
       if (Number.isNaN(keyn)) {
@@ -76,8 +75,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }
 
       const item = items[keyn];
-
-      console.log({ item, q: item.quantity, price: item.product.price });
 
       acc += item.quantity * (item.product.price || 0);
       return acc;

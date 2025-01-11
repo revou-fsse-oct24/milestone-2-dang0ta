@@ -1,8 +1,11 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { CartModifier } from "@/components/cart-modifier";
-import { ImageLoader } from "@/components/image-loader";
 import { useCart } from "@/contexts/cart-context";
 import { CreditCardIcon } from "lucide-react";
+import Image from "next/image";
+import { getMainImage } from "@/models/product";
 
 const Cart = () => {
   const { items, total } = useCart();
@@ -19,9 +22,10 @@ const Cart = () => {
         {Object.keys(items).map((id) => {
           const item = items[Number.parseInt(id)];
           return (
-            <div className="flex flex-row gap-4 p-2 border rounded-md">
-              <ImageLoader
-                src={item.product.mainImage}
+            <div key={id} className="flex flex-row gap-4 p-2 border rounded-md">
+              <Image
+                alt={item.product.title}
+                src={getMainImage(item.product)}
                 width={96}
                 height={96}
               />
