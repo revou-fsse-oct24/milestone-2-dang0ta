@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "DIMS Management App",
+  name: "ShopMart",
   url: "https://shopmart-ashen.vercel.app/",
   ogImage: "https://shopmart-ashen.vercel.app/images/og/home.jpg",
   description:
