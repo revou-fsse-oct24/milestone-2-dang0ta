@@ -1,10 +1,7 @@
-import * as React from "react";
-
+'use client'
 import { SearchForm } from "@/components/search-form";
 import {
   GalleryVerticalEnd,
-  Loader2Icon,
-  ShoppingCartIcon,
   SpeakerIcon,
   StarIcon,
 } from "lucide-react";
@@ -17,17 +14,13 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { NavUser } from "./nav-user";
-import { getCategories } from "@/actions/categories";
-import { Category } from "@/models/category";
-import { useResponse } from "@/hooks/useResponse";
-import { useCart } from "@/contexts/cart-context";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import CategorySidebar from "./category-sidebar";
+import CartSidebar from "./cart-sidebar";
 
 // TODO: replace with real data
 const data = {
@@ -98,99 +91,5 @@ export function MainSidebar({
   );
 }
 
-function CategorySidebar() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  // Get a new searchParams string by merging the current
-  // searchParams with a provided key/value pair
-  const createQueryString = React.useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams?.toString());
-      params.set(name, value);
 
-      return params.toString();
-    },
-    [searchParams]
-  );
-  const { state, response } = useResponse<Category[]>(getCategories);
-
-  const isSelected = (id: string): boolean =>
-    searchParams?.get("category") ? searchParams.get("category") === id : false;
-
-  if (state === "loading" || state === "init") {
-    return (
-      <SidebarGroup key="categories">
-        <SidebarGroupLabel>Categories</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="#" className="text-muted-foreground">
-                  loading category list...
-                </a>
-              </SidebarMenuButton>
-              <SidebarMenuBadge>
-                <Loader2Icon
-                  size={12}
-                  className="text-muted-foreground animate-spin"
-                />
-              </SidebarMenuBadge>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-    );
-  }
-
-  if (!response) {
-    return null;
-    // return <Navigate to="/" />;
-  }
-
-  return (
-    <SidebarGroup key="categories">
-      <SidebarGroupLabel>Categories</SidebarGroupLabel>
-      <SidebarGroupContent>
-        <SidebarMenu>
-          {response.data.map((item: Category) => (
-            <SidebarMenuItem key={item.id}>
-              <SidebarMenuButton
-                asChild
-                isActive={isSelected(`${item.id}`)}
-                onClick={() =>
-                  router.push(
-                    pathname + "?" + createQueryString("category", `${item.id}`)
-                  )
-                }
-              >
-                <a href={`/products?category=${item.id}`}>{item.name}</a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
-  );
-}
-
-function CartSidebar() {
-  const cart = useCart();
-  const count = cart.count();
-  return (
-    <SidebarMenuItem>
-      <SidebarMenuButton asChild>
-        <a href="/cart">
-          <ShoppingCartIcon className="text-muted-foreground" />
-          Cart
-        </a>
-      </SidebarMenuButton>
-      <SidebarMenuBadge>
-        <span className="text-muted-foreground font-semibold">
-          {count} item{count > 1 ? "s" : ""}
-        </span>
-      </SidebarMenuBadge>
-    </SidebarMenuItem>
-  );
-}

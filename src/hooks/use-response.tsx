@@ -1,3 +1,5 @@
+'use client';
+
 import { Response } from "@/actions/api";
 import { parseError } from "@/actions/exceptions";
 import { useEffect, useState } from "react";
