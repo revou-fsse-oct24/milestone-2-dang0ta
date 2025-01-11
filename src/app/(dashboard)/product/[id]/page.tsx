@@ -5,12 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Page = async ({
-  params: { id },
+  params,
 }: {
-  params: { id: string };
-  searchParms?: Record<string, string>;
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }) => {
-  const { status, data, error } = await getProduct({ id });
+  const { status, data, error } = await getProduct({ id: (await params).id });
 
   if (status == "error") {
     return <>error {error}</>;

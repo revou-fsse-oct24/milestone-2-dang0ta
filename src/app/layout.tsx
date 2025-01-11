@@ -2,7 +2,6 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { siteConfig } from "@/config/site";
 import { type ReactNode } from "react";
-import { CartProvider } from "@/contexts/cart-context";
 
 export const metadata: Metadata = {
   title: {
@@ -57,14 +56,14 @@ export const viewport: Viewport = {
   ],
 };
 
+
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
         <div id="root">
-          <CartProvider>
             {children}
-          </CartProvider>
         </div>
       </body>
     </html>

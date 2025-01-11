@@ -15,10 +15,14 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import dynamic from "next/dynamic";
 import { ReactNode } from "react";
+
+const CartProvider = dynamic(() => import("@/contexts/cart-context"), {ssr: false});
 
 const PageLayout = ({ children }: { children: ReactNode }) => {
   return (
+    <CartProvider>
     <SidebarProvider>
       <MainSidebar />
       <SidebarInset>
@@ -40,6 +44,7 @@ const PageLayout = ({ children }: { children: ReactNode }) => {
         <div className="flex flex-1 flex-col gap-4 p-8">{children}</div>
       </SidebarInset>
     </SidebarProvider>
+    </CartProvider>
   );
 };
 

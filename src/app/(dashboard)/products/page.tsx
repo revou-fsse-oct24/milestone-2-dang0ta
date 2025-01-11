@@ -1,5 +1,4 @@
 import ProductCard from "@/components/product-card";
-import { cn } from "@/lib/utils";
 import { CartModifier } from "@/components/cart-modifier";
 import { Product } from "@/models/product";
 import { ProductsQuery } from "@/actions/api";
@@ -7,10 +6,8 @@ import { queryProducts } from "@/actions/products";
 import Link from "next/link";
 
 const Page = async ({
-  className,
   searchParams,
 }: {
-  className?: string;
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const p = (await searchParams) || {};
@@ -46,7 +43,7 @@ const Page = async ({
   if (data.length === 0) {
     return (
         <div className="flex flex-row items-start">
-      <div className={cn(className, "grid grid-cols-3 gap-2")}>
+      <div className="grid grid-cols-3 gap-2">
         <div className="flex flex-col">
           <h1 className="text-lg font-medium text-muted-foreground">No product in this category :(</h1>
         </div>
@@ -57,7 +54,7 @@ const Page = async ({
 
   return (
     <div className="flex flex-row items-start">
-      <div className={cn(className, "grid grid-cols-3 gap-2")}>
+      <div className="grid grid-cols-3 gap-2">
         {data.map((product: Product) => (
           <div key={product.id} className="flex flex-col">
             <Link href={`/product/${product.id}`}>

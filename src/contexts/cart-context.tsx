@@ -26,16 +26,26 @@ const CartContext = createContext<Cart>({
   count: () => 0,
 });
 
-export const CartProvider = ({ children }: { children: ReactNode }) => {
+ const CartProvider = ({ children }: { children: ReactNode }) => {
   const persistCart = (items: Record<number, CartItem>) => {
+    if (!localStorage) {
+        return;
+    }
+
     localStorage.setItem("cart", JSON.stringify(items));
   };
 
-  const loadPersistedCart = (): Record<number, CartItem> =>
-    JSON.parse(localStorage.getItem("cart") || "{}") as Record<
+  const loadPersistedCart = (): Record<number, CartItem> => {
+    if (!localStorage) {
+        return {};
+    }
+
+    return JSON.parse(localStorage.getItem("cart") || "{}") as Record<
       number,
       CartItem
     >;
+  }
+    
   const [items, setItems] = useState<Record<number, CartItem>>(
     loadPersistedCart()
   );
@@ -104,3 +114,5 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useCart = () => useContext(CartContext);
+
+export default CartProvider;
