@@ -1,3 +1,5 @@
+"use client";
+
 import { Product } from "@/models/product";
 import { createContext, ReactNode, useContext, useState } from "react";
 
@@ -15,15 +17,8 @@ type Cart = {
   count: () => number;
 };
 
-const persistCart = (items: Record<number, CartItem>) => {
-  localStorage.setItem("cart", JSON.stringify(items));
-};
-
-const loadPersistedCart = (): Record<number, CartItem> =>
-  JSON.parse(localStorage.getItem("cart") || "{}") as Record<number, CartItem>;
-
 const CartContext = createContext<Cart>({
-  items: loadPersistedCart(),
+  items: {},
   get: () => null,
   addItem: () => {},
   removeItem: () => {},
@@ -31,7 +26,16 @@ const CartContext = createContext<Cart>({
   count: () => 0,
 });
 
-export const Provider = ({ children }: { children: ReactNode }) => {
+export const CartProvider = ({ children }: { children: ReactNode }) => {
+  const persistCart = (items: Record<number, CartItem>) => {
+    localStorage.setItem("cart", JSON.stringify(items));
+  };
+
+  const loadPersistedCart = (): Record<number, CartItem> =>
+    JSON.parse(localStorage.getItem("cart") || "{}") as Record<
+      number,
+      CartItem
+    >;
   const [items, setItems] = useState<Record<number, CartItem>>(
     loadPersistedCart()
   );
@@ -64,16 +68,16 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   };
 
   const total = (): number => {
-    console.log({items})
+    console.log({ items });
     return Object.keys(items).reduce((acc, cur) => {
-        const keyn = Number(cur)
-        if (Number.isNaN(keyn)) {
-            return acc;
-        }
+      const keyn = Number(cur);
+      if (Number.isNaN(keyn)) {
+        return acc;
+      }
 
-        const item = items[keyn]
+      const item = items[keyn];
 
-        console.log({item, q: item.quantity, price: item.product.price})
+      console.log({ item, q: item.quantity, price: item.product.price });
 
       acc += item.quantity * (item.product.price || 0);
       return acc;

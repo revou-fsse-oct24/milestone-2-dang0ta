@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { siteConfig } from "@/config/site";
 import { type ReactNode } from "react";
-import { CartProvider } from "@/contexts/CartContext";
+import { CartProvider } from "@/contexts/cart-context";
 import PageLayout from "./page-layout";
 
 export const metadata: Metadata = {

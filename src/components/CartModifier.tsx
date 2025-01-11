@@ -1,4 +1,4 @@
-import { useCart } from "@/contexts/CartContext";
+import { useCart } from "@/contexts/cart-context";
 import { Product } from "@/models/product";
 import { Button } from "@/components/ui/button";
 import { MinusCircleIcon, PlusCircleIcon } from "lucide-react";
