@@ -2,8 +2,8 @@
 
 import { Product } from "@/models/product";
 import Link from "next/link";
-import ProductCard from "@/components/ProductCard";
-import { CartModifier } from "@/components/CartModifier";
+import ProductCard from "@/components/product-card";
+import { CartModifier } from "@/components/cart-modifier";
 
 export const ProductWithCart = ({ product }: { product: Product }) => {
   return (

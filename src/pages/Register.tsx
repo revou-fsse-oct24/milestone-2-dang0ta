@@ -1,8 +1,8 @@
 import { buttonVariants } from "@/components/ui/button"
-import { ImageLoader } from "@/components/ImageLoader";
+import { ImageLoader } from "@/components/image-loader";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { UserRegistrationForm } from "@/components/UserRegistrationForm";
+import { UserRegistrationForm } from "@/components/user-registration-form";
 
 export default function RegisterPage() {
   return (

@@ -1,6 +1,6 @@
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "@/components/product-card";
 import { cn } from "@/lib/utils";
-import { CartModifier } from "@/components/CartModifier";
+import { CartModifier } from "@/components/cart-modifier";
 import { Product } from "@/models/product";
 import { ProductsQuery } from "@/actions/api";
 import { queryProducts } from "@/actions/products";

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { CartModifier } from "@/components/CartModifier";
-import { ImageLoader } from "@/components/ImageLoader";
+import { CartModifier } from "@/components/cart-modifier";
+import { ImageLoader } from "@/components/image-loader";
 import { useCart } from "@/contexts/cart-context";
 import { CreditCardIcon } from "lucide-react";
 

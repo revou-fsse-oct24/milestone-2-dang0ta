@@ -1,5 +1,5 @@
 import { getProduct } from "@/actions/products";
-import { CartModifier } from "@/components/CartModifier";
+import { CartModifier } from "@/components/cart-modifier";
 import { getMainImage } from "@/models/product";
 import Image from "next/image";
 import Link from "next/link";

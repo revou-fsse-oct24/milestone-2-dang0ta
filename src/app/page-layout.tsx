@@ -1,6 +1,6 @@
 "use client";
 
-import { MainSidebar } from "@/components/MainSidebar";
+import { MainSidebar } from "@/components/main-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,

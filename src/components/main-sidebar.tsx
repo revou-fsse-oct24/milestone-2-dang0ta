@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { SearchForm } from "@/components/SearchForm";
+import { SearchForm } from "@/components/search-form";
 import {
   GalleryVerticalEnd,
   Loader2Icon,
@@ -22,7 +22,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { NavUser } from "./NavUser";
+import { NavUser } from "./nav-user";
 import { getCategories } from "@/actions/categories";
 import { Category } from "@/models/category";
 import { useResponse } from "@/hooks/useResponse";
