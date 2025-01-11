@@ -1,4 +1,4 @@
-import { Product } from "@models/product";
+import { Product } from "@/models/product";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 type CartItem = {

@@ -1,10 +1,10 @@
-import { type Category } from "@models/category";
-import { type Product } from "@models/product";
-import { type Response } from "@actions/api";
+import { type Category } from "@/models/category";
+import { type Product } from "@/models/product";
+import { type Response } from "@/actions/api";
 
-import { getLatestProducts } from "@actions/products";
-import { getCategories } from "@actions/categories";
-import { parseError } from "@actions/exceptions";
+import { getLatestProducts } from "@/actions/products";
+import { getCategories } from "@/actions/categories";
+import { parseError } from "@/actions/exceptions";
 import { useCallback, useEffect, useState } from "react";
 
 type HomeData = {

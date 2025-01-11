@@ -1,7 +1,7 @@
-import { Response, ProductsQuery } from "@actions/api";
-import { parseError } from "@actions/exceptions";
-import { queryProducts } from "@actions/products";
-import { Product } from "@models/product";
+import { Response, ProductsQuery } from "@/actions/api";
+import { parseError } from "@/actions/exceptions";
+import { queryProducts } from "@/actions/products";
+import { Product } from "@/models/product";
 import { useCallback, useEffect, useState } from "react";
 
 type State = {

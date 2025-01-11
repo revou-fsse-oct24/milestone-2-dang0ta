@@ -1,8 +1,8 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { CartModifier } from "@components/CartModifier";
-import CategoryCard from "@components/CategoryCard";
-import ProductCard from "@components/ProductCard";
-import { useHomeData } from "@hooks/useHomeData";
+import { CartModifier } from "@/components/CartModifier";
+import CategoryCard from "@/components/CategoryCard";
+import ProductCard from "@/components/ProductCard";
+import { useHomeData } from "@/hooks/useHomeData";
 import { Link } from "react-router-dom";
 
 /**

@@ -1,6 +1,6 @@
-import { type Category } from "@models/category";
-import { cn } from "@utils/cn";
-import { ImageLoader } from "@components/ImageLoader";
+import { type Category } from "@/models/category";
+import { cn } from "@/lib/utils";
+import { ImageLoader } from "@/components/ImageLoader";
 
 const CategoryCard = ({
   category,

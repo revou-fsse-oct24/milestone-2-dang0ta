@@ -1,5 +1,5 @@
-import { Button } from "@components/ui/button";
-import { Input } from "@components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -7,8 +7,8 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "@components/ui/form";
-import { cn } from "@/utils/cn";
+} from "@/components/ui/form";
+import { cn } from "@/lib/utils";
 import { HTMLAttributes, useState } from "react";
 import { Loader2Icon } from "lucide-react";
 import { z } from "zod";

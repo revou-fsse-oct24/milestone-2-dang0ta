@@ -1,6 +1,6 @@
-import { type Product } from "@models/product";
-import { cn } from "@utils/cn";
-import { ImageLoader } from "@components/ImageLoader";
+import { type Product } from "@/models/product";
+import { cn } from "@/lib/utils";
+import { ImageLoader } from "@/components/ImageLoader";
 
 const ProductCard = ({
   product,

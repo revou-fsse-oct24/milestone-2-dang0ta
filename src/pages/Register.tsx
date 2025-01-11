@@ -1,6 +1,6 @@
-import { buttonVariants } from "@components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { ImageLoader } from "@/components/ImageLoader";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { UserRegistrationForm } from "@/components/UserRegistrationForm";
 

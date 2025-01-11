@@ -1,4 +1,4 @@
-import { isNameInvalid } from "@utils/validate";
+import { isNameInvalid } from "@/lib/validate";
 import { Category, CategoryRaw } from "./category";
 
 const DEFAULT_IMAGE_URL = "https://placehold.co/400";

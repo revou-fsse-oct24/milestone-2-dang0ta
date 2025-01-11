@@ -2,8 +2,9 @@ import { useProductQuery } from "@/hooks/useProductQuery";
 import { Link, useSearchParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import { useEffect } from "react";
-import { cn } from "@utils/cn";
+import { cn } from "@/lib/utils";
 import { CartModifier } from "./CartModifier";
+import { Product } from "@/models/product";
 
 const ProductsList = ({ className }: { className?: string }) => {
   const [searchParams] = useSearchParams();
@@ -29,7 +30,7 @@ const ProductsList = ({ className }: { className?: string }) => {
 
   return (
     <div className={cn(className, "grid grid-cols-3 gap-2")}>
-      {state.response?.data.map((product) => (
+      {state.response?.data.map((product: Product) => (
         <div key={product.id} className="flex flex-col">
           <Link to={`/product/${product.id}`}>
             <ProductCard product={product} />

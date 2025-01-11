@@ -1,8 +1,8 @@
-import { getProduct } from "@actions/products";
-import { CartModifier } from "@components/CartModifier";
-import { ImageLoader } from "@components/ImageLoader";
-import { useResponse } from "@hooks/useResponse";
-import { Product } from "@models/product";
+import { getProduct } from "@/actions/products";
+import { CartModifier } from "@/components/CartModifier";
+import { ImageLoader } from "@/components/ImageLoader";
+import { useResponse } from "@/hooks/useResponse";
+import { Product } from "@/models/product";
 import { Link, Navigate, useParams } from "react-router-dom";
 
 const ProductPage = () => {

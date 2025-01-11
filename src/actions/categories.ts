@@ -1,10 +1,10 @@
 import { parseError } from "./exceptions";
 import { ERR_NOTFOUND } from "./const";
 import { getCategoriesURL, getCategoryURL, Response } from "./api";
-import { Category, CategoryRaw } from "@models/category";
-import { TimedCache } from "@utils/timedCache";
-import { skipErroneous } from "@utils/skipErroneous";
-import { uniqueOnly } from "@utils/uniqueOnly";
+import { Category, CategoryRaw } from "@/models/category";
+import { TimedCache } from "@/lib/timedCache";
+import { skipErroneous } from "@/lib/skipErroneous";
+import { uniqueOnly } from "@/lib/uniqueOnly";
 
 const categoriesCache = new TimedCache<CategoryRaw[]>("categories_cache");
 

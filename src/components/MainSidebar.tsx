@@ -21,7 +21,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@components/ui/sidebar";
+} from "@/components/ui/sidebar";
 import { NavUser } from "./NavUser";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { getCategories } from "@/actions/categories";
@@ -137,7 +137,7 @@ function CategorySidebar() {
       <SidebarGroupLabel>Categories</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {response.data.map((item) => (
+          {response.data.map((item: Category) => (
             <SidebarMenuItem key={item.id}>
               <SidebarMenuButton
                 asChild

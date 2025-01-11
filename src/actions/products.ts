@@ -1,4 +1,4 @@
-import { Product, ProductRaw } from "@models/product";
+import { Product, ProductRaw } from "@/models/product";
 import {
   getProductsURL,
   getProductURL,
@@ -7,9 +7,9 @@ import {
   queryProductsURL,
 } from "./api";
 import { parseError } from "./exceptions";
-import { TimedCache } from "@utils/timedCache";
-import { skipErroneous } from "@utils/skipErroneous";
-import { uniqueOnly } from "@utils/uniqueOnly";
+import { TimedCache } from "@/lib/timedCache";
+import { skipErroneous } from "@/lib/skipErroneous";
+import { uniqueOnly } from "@/lib/uniqueOnly";
 
 export async function queryProducts(
   query: ProductsQuery

@@ -1,6 +1,6 @@
-import { useCart } from "@contexts/CartContext";
-import { Product } from "@models/product";
-import { Button } from "@components/ui/button";
+import { useCart } from "@/contexts/CartContext";
+import { Product } from "@/models/product";
+import { Button } from "@/components/ui/button";
 import { MinusCircleIcon, PlusCircleIcon } from "lucide-react";
 
 export const CartModifier = ({ product }: { product: Product }) => {

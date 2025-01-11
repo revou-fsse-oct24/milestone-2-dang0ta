@@ -1,4 +1,4 @@
-import { isNameInvalid } from "@utils/validate";
+import { isNameInvalid } from "@/lib/validate";
 
 /**
  * Represents a category.
