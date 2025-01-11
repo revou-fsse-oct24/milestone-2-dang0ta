@@ -1,21 +1,22 @@
+'use client';
 import { buttonVariants } from "@/components/ui/button"
-import { ImageLoader } from "@/components/image-loader";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
 import { UserRegistrationForm } from "@/components/user-registration-form";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function RegisterPage() {
   return (
     <>
       <div className="md:hidden">
-        <ImageLoader
+        <Image
           src="/examples/authentication-light.png"
           width={1280}
           height={843}
           alt="Authentication"
           className="block dark:hidden"
         />
-        <ImageLoader
+        <Image
           src="/examples/authentication-dark.png"
           width={1280}
           height={843}
@@ -25,7 +26,7 @@ export default function RegisterPage() {
       </div>
       <div className="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
-          to="/login"
+          href="/login"
           className={cn(
             buttonVariants({ variant: "ghost" }),
             "absolute right-4 top-4 md:right-8 md:top-8"
@@ -75,14 +76,14 @@ export default function RegisterPage() {
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking register, you agree to our{" "}
               <Link
-                to="/terms"
+                href="/terms"
                 className="underline underline-offset-4 hover:text-primary"
               >
                 Terms of Service
               </Link>{" "}
               and{" "}
               <Link
-                to="/privacy"
+                href="/privacy"
                 className="underline underline-offset-4 hover:text-primary"
               >
                 Privacy Policy
