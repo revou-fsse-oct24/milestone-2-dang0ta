@@ -3,7 +3,7 @@ export const siteConfig = {
   url: "https://shopmart-ashen.vercel.app/",
   ogImage: "https://shopmart-ashen.vercel.app/images/og/home.jpg",
   description:
-    "Control Center Plaform for DIMS Case Management",
+    "Shop and Market",
   links: {
     twitter: "https://twitter.com/dang0ta",
     github: "https://github.com/dang0ta",
