@@ -23,11 +23,11 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { NavUser } from "./NavUser";
-import { Navigate, useSearchParams } from "react-router-dom";
 import { getCategories } from "@/actions/categories";
 import { Category } from "@/models/category";
 import { useResponse } from "@/hooks/useResponse";
-import { useCart } from "@/contexts/CartContext";
+import { useCart } from "@/contexts/cart-context";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 // TODO: replace with real data
 const data = {
@@ -38,7 +38,9 @@ const data = {
   },
 };
 
-export function MainSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function MainSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -97,11 +99,25 @@ export function MainSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) 
 }
 
 function CategorySidebar() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = React.useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams?.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
   const { state, response } = useResponse<Category[]>(getCategories);
 
   const isSelected = (id: string): boolean =>
-    searchParams.get("category") ? searchParams.get("category") === id : false;
+    searchParams?.get("category") ? searchParams.get("category") === id : false;
 
   if (state === "loading" || state === "init") {
     return (
@@ -129,7 +145,8 @@ function CategorySidebar() {
   }
 
   if (!response) {
-    return <Navigate to="/" />;
+    return null;
+    // return <Navigate to="/" />;
   }
 
   return (
@@ -142,7 +159,11 @@ function CategorySidebar() {
               <SidebarMenuButton
                 asChild
                 isActive={isSelected(`${item.id}`)}
-                onClick={() => setSearchParams({ category: item.id + "" })}
+                onClick={() =>
+                  router.push(
+                    pathname + "?" + createQueryString("category", `${item.id}`)
+                  )
+                }
               >
                 <a href={`/products?category=${item.id}`}>{item.name}</a>
               </SidebarMenuButton>
