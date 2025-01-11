@@ -4,7 +4,7 @@ import { getMainImage } from "@/models/product";
 import Image from "next/image";
 import Link from "next/link";
 
-const ProductPage = async ({
+const Page = async ({
   params: { id },
 }: {
   params: { id: string };
@@ -45,4 +45,4 @@ const ProductPage = async ({
   );
 };
 
-export default ProductPage;
+export default Page;
