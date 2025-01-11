@@ -1,4 +1,6 @@
-import { Product, ProductRaw } from "@models/product";
+'use server';
+
+import { cleanProduct, defaultProduct, Product, validateProduct } from "@/models/product";
 import {
   getProductsURL,
   getProductURL,
@@ -7,9 +9,8 @@ import {
   queryProductsURL,
 } from "./api";
 import { parseError } from "./exceptions";
-import { TimedCache } from "@utils/timedCache";
-import { skipErroneous } from "@utils/skipErroneous";
-import { uniqueOnly } from "@utils/uniqueOnly";
+import { skipErroneousFunctional } from "@/lib/skipErroneous";
+import { uniqueOnly } from "@/lib/uniqueOnly";
 
 export async function queryProducts(
   query: ProductsQuery
@@ -26,18 +27,18 @@ export async function queryProducts(
       };
     }
 
-    const raws = (await res.json()) as ProductRaw[];
+    const raws = ((await res.json()) as Product[]).map((product) =>
+      cleanProduct(product)
+    );
     return {
       status: "success",
-      data: uniqueOnly(skipErroneous<ProductRaw, Product>(raws, Product))
+      data: uniqueOnly(skipErroneousFunctional<Product>(raws, validateProduct)),
     };
   } catch (e) {
     const parsedErr = parseError(e);
     return { status: "error", data: [], error: parsedErr.message };
   }
 }
-
-const productsCache = new TimedCache<ProductRaw[]>("products_cache");
 
 /**
  * Fetches a list of latest 10 products from the API.
@@ -47,14 +48,6 @@ const productsCache = new TimedCache<ProductRaw[]>("products_cache");
  */
 export async function getLatestProducts(): Promise<Response<Product[]>> {
   try {
-    const cached = productsCache.get();
-    if (cached) {
-      return {
-        status: "success",
-        data: uniqueOnly(skipErroneous<ProductRaw, Product>(cached, Product))
-          
-      };
-    }
 
     const res = await fetch(getProductsURL());
     if (!res.ok) {
@@ -66,12 +59,13 @@ export async function getLatestProducts(): Promise<Response<Product[]>> {
       };
     }
 
-    const raws = (await res.json()) as ProductRaw[];
-    productsCache.set(raws);
-    return {
-      status: "success",
-      data: uniqueOnly(skipErroneous<ProductRaw, Product>(raws, Product))
-    };
+    const raws = ((await res.json()) as Product[]).map((product) =>
+        cleanProduct(product)
+      );
+      return {
+        status: "success",
+        data: uniqueOnly(skipErroneousFunctional<Product>(raws, validateProduct)),
+      };
   } catch (e) {
     const parsedErr = parseError(e);
     return { status: "error", data: [], error: parsedErr.message };
@@ -89,18 +83,7 @@ export async function getProduct({
 }: {
   id: string;
 }): Promise<Response<Product>> {
-  try {
-    const value = productsCache.get();
-    if (value) {
-      const raw = value.find((raw) => raw.id === parseInt(id));
-      if (raw) {
-        const product = new Product(raw);
-        return { status: "success", data: product };
-      }
-    }
-  } catch (e) {
-    console.warn("cache value has error", { error: e, id });
-  }
+  
 
   try {
     const res = await fetch(getProductURL({ id }));
@@ -108,18 +91,18 @@ export async function getProduct({
       console.warn(res.statusText, id);
       return {
         status: "error",
-        data: Product.default(),
+        data: defaultProduct(),
         error: "An error occurred while fetching the data",
       };
     }
 
-    const data = new Product(await res.json());
+    const data = cleanProduct((await res.json()) as Product);
     return { status: "success", data };
   } catch (e) {
     const parsedErr = parseError(e);
     return {
       status: "error",
-      data: Product.default(),
+      data: defaultProduct(),
       error: parsedErr.message,
     };
   }
