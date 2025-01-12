@@ -1,9 +1,8 @@
-import ProductCard from "@/components/product-card";
-import { CartModifier } from "@/components/cart-modifier";
-import { Product } from "@/models/product";
 import { ProductsQuery } from "@/actions/api";
 import { queryProducts } from "@/actions/products";
-import Link from "next/link";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { ScrollBar } from "@/components/ui/scroll-area";
+import { ProductWithCart } from "@/components/product-with-cart";
 
 const Page = async ({
   searchParams,
@@ -42,28 +41,27 @@ const Page = async ({
 
   if (data.length === 0) {
     return (
-        <div className="flex flex-row items-start">
-      <div className="grid grid-cols-3 gap-2">
-        <div className="flex flex-col">
-          <h1 className="text-lg font-medium text-muted-foreground">No product in this category :(</h1>
-        </div>
+      <div>
+        <ScrollArea>
+          <div className="flex space-x-4 pb-4 h-[200px]">
+            <span>no product in this category</span>
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
-    </div>
-    )
+    );
   }
 
   return (
-    <div className="flex flex-row items-start">
-      <div className="grid grid-cols-3 gap-2">
-        {data.map((product: Product) => (
-          <div key={product.id} className="flex flex-col">
-            <Link href={`/product/${product.id}`}>
-              <ProductCard product={product} />
-            </Link>
-            <CartModifier product={product} />
-          </div>
-        ))}
-      </div>
+    <div className="flex flex-col gap-4 max-w-[83vw]">
+      <ScrollArea>
+        <div className="grid gap-4 grid-cols-[repeat(3,350px)]">
+          {data.map((product) => (
+            <ProductWithCart key={product.id} product={product} />
+          ))}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </div>
   );
 };
