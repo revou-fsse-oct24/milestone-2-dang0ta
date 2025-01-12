@@ -49,4 +49,4 @@ The website is under active maintenance, expect changes in near future!
 ![preview](img/image.png)
 
 ## Live Website
-The website is deployed on [Vercel](https://vercel.com/), and the live version is available at [https://shopmart-ashen.vercel.app/](https://shopmart-ashen.vercel.app/)
+The website is deployed on [Vercel](https://vercel.com/), and the live version is available at [here.](https://shopmart-jamd.vercel.app/)
