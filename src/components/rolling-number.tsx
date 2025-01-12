@@ -24,7 +24,7 @@ const Digit = ({ value }: { value: number }) => {
       {[...Array(10)
         .keys()]
         .map((n) => (
-          <span className="leading-[1rem] h-[1rem] text-sm text-muted-foreground">
+          <span key={n} className="leading-[1rem] h-[1rem] text-sm text-muted-foreground">
             {`${n}`}
           </span>
         ))}
