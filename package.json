@@ -28,6 +28,7 @@
     "react-hook-form": "^7.54.2",
     "react-lazy-load-image-component": "^1.6.3",
     "tailwindcss-animate": "^1.0.7",
+    "use-debounce": "^10.0.4",
     "zod": "^3.24.1"
   },
   "devDependencies": {
