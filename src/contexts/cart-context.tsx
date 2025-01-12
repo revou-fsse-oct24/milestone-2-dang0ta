@@ -3,7 +3,7 @@
 import { Product } from "@/models/product";
 import { createContext, ReactNode, useContext, useState } from "react";
 
-type CartItem = {
+export type CartItem = {
   product: Product;
   quantity: number;
 };
@@ -16,7 +16,7 @@ type Cart = {
   total: () => number;
   count: () => number;
   allItems: () => CartItem[];
-  clear : () => void;
+  clear: () => void;
 };
 
 const CartContext = createContext<Cart>({
@@ -27,13 +27,13 @@ const CartContext = createContext<Cart>({
   total: () => 0,
   count: () => 0,
   allItems: () => [],
-  clear : () => {}
+  clear: () => {},
 });
 
- const CartProvider = ({ children }: { children: ReactNode }) => {
+const CartProvider = ({ children }: { children: ReactNode }) => {
   const persistCart = (items: Record<number, CartItem>) => {
     if (!localStorage) {
-        return;
+      return;
     }
 
     localStorage.setItem("cart", JSON.stringify(items));
@@ -41,18 +41,19 @@ const CartContext = createContext<Cart>({
 
   const loadPersistedCart = (): Record<number, CartItem> => {
     if (!localStorage) {
-        return {};
+      return {};
     }
 
     return JSON.parse(localStorage.getItem("cart") || "{}") as Record<
       number,
       CartItem
     >;
-  }
-    
+  };
+
   const [items, setItems] = useState<Record<number, CartItem>>(
     loadPersistedCart()
   );
+  
   const addItem = (product: Product) => {
     const existing = items[product.id];
     if (existing) {
@@ -95,15 +96,14 @@ const CartContext = createContext<Cart>({
     }, 0);
   };
 
-  
   const count = () => {
-    const _items = [...Object.entries(items)]
+    const _items = [...Object.entries(items)];
     if (_items.length === 0) {
       return 0;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return _items.reduce((acc, [_, item]) => acc + item.quantity, 0)
+    return _items.reduce((acc, [_, item]) => acc + item.quantity, 0);
   };
 
   const get = (productId: number): CartItem | null => {
@@ -115,7 +115,7 @@ const CartContext = createContext<Cart>({
   const clear = () => {
     setItems({});
     localStorage.removeItem("cart");
-  }
+  };
 
   return (
     <CartContext.Provider

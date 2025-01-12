@@ -57,30 +57,15 @@ export type ProductsQuery = {
 
 export const queryProductsURL = (query: ProductsQuery): string => {
     const params = new URLSearchParams();
-    if (!query.offset ||  query.offset < 0) query.offset = 0;
-    params.set("offset", query.offset.toString());
 
-    if (!query.limit || query.limit < 1) query.limit = 10;
-    params.set("limit", query.limit.toString());
-
-    if (query.price) {
-        if (query.price < 0) query.price = 1;
-        params.set("price", query.price.toString());
-    }
-
-    if (query.title) {
-        params.set("title", query.title);
-    }
-
-    if (query.category) {
-        params.set("categoryId", query.category);
-    }
-
+    if (query.offset !== undefined) params.set("offset", Math.max(0, query.offset).toString());
+    if (query.limit !== undefined) params.set("limit", Math.max(1, query.limit).toString());
+    if (query.price !== undefined) params.set("price", Math.max(0, query.price).toString());
+    if (query.title) params.set("title", query.title);
+    if (query.category) params.set("categoryId", query.category);
     if (query.priceRange) {
-        if (query.priceRange[0] < 0) query.priceRange[0] = 0;
-        params.set("price_min", query.priceRange[0].toString());
-        if (query.priceRange[1] < 0) query.priceRange[1] = 0;
-        params.set("price_max", query.priceRange[1].toString());
+        params.set("price_min", Math.max(0, query.priceRange[0]).toString());
+        params.set("price_max", Math.max(0, query.priceRange[1]).toString());
     }
 
     return new URL(`api/v1/products?${params.toString()}`, baseURL()).toString();

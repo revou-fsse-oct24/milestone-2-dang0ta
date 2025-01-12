@@ -50,6 +50,7 @@ export function useResponse<T>(getter: () => Promise<Response<T>>) {
 
   useEffect(() => {
     get();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return state;
