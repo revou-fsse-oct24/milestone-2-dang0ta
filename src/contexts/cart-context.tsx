@@ -15,6 +15,8 @@ type Cart = {
   removeItem: (productId: number) => void;
   total: () => number;
   count: () => number;
+  allItems: () => CartItem[];
+  clear : () => void;
 };
 
 const CartContext = createContext<Cart>({
@@ -24,6 +26,8 @@ const CartContext = createContext<Cart>({
   removeItem: () => {},
   total: () => 0,
   count: () => 0,
+  allItems: () => [],
+  clear : () => {}
 });
 
  const CartProvider = ({ children }: { children: ReactNode }) => {
@@ -78,7 +82,7 @@ const CartContext = createContext<Cart>({
   };
 
   const total = (): number => {
-    return Object.keys(items).reduce((acc, cur) => {
+    return [...Object.keys(items)].reduce((acc, cur) => {
       const keyn = Number(cur);
       if (Number.isNaN(keyn)) {
         return acc;
@@ -91,11 +95,27 @@ const CartContext = createContext<Cart>({
     }, 0);
   };
 
-  const count = () => Object.entries(items).length;
+  
+  const count = () => {
+    const _items = [...Object.entries(items)]
+    if (_items.length === 0) {
+      return 0;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return _items.reduce((acc, [_, item]) => acc + item.quantity, 0)
+  };
 
   const get = (productId: number): CartItem | null => {
     return items[productId];
   };
+
+  const allItems = (): CartItem[] => [...Object.values(items)];
+
+  const clear = () => {
+    setItems({});
+    localStorage.removeItem("cart");
+  }
 
   return (
     <CartContext.Provider
@@ -106,6 +126,8 @@ const CartContext = createContext<Cart>({
         total,
         count,
         get,
+        allItems,
+        clear,
       }}
     >
       {children}
