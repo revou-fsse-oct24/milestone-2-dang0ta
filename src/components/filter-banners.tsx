@@ -51,7 +51,7 @@ export const FilterBanners = () => {
         const price_min = searchParams.get("price_min");
         if (price_min) {
             banners.push({
-                label: `price from: ${price_min}`,
+                label: `price min. USD${price_min}.00`,
                 onRemove: () => {
                     router.push(pathname + "?" + createQueryString("price_min", ""));
                 }
@@ -61,7 +61,7 @@ export const FilterBanners = () => {
         const price_max = searchParams.get("price_max");
         if (price_max) {
             banners.push({
-                label: `price to: ${price_max}`,
+                label: `price max. USD${price_max}.00`,
                 onRemove: () => {
                     router.push(pathname + "?" + createQueryString("price_max", ""));
                 }

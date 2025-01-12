@@ -21,6 +21,7 @@ import { NavUser } from "./nav-user";
 import CategorySidebar from "./category-sidebar";
 import CartSidebar from "./cart-sidebar";
 import { FavoriteSidebar } from "./favorite-sidebar";
+import { PriceRangeSidebar } from "./price-range-sidebar";
 
 // TODO: replace with real data
 const data = {
@@ -73,6 +74,7 @@ export function MainSidebar({
                     </SidebarGroupContent>
                 </SidebarGroup>
                 <CategorySidebar />
+                <PriceRangeSidebar />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />

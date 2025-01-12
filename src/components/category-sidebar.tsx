@@ -1,7 +1,8 @@
 import { getCategories } from "@/actions/categories";
 import { useResponse } from "@/hooks/use-response";
 import { Category } from "@/models/category";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from 'nextjs-toploader/app';
 import { useCallback } from "react";
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar";
 import { Loader2Icon, Package2Icon } from "lucide-react";
