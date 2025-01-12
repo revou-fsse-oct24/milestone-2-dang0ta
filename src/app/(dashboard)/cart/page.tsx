@@ -33,8 +33,8 @@ const Cart = () => {
       <div className="flex flex-col gap-4 mb-4 py-4">
         {allItems().map((item) => {
           return (
-            <div className="flex flex-row gap-4 p-2 border rounded-md">
-              <Link className="w-full" key={item.product.id} href={`/product/${item.product.id}`}>
+            <div key={item.product.id} className="flex flex-row gap-4 p-2 border rounded-md">
+              <Link className="w-full" href={`/product/${item.product.id}`}>
                 <div className="flex flex-row gap-4 items-center w-full">
                   <Image
                     alt={item.product.title}
