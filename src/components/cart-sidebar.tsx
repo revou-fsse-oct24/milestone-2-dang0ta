@@ -1,24 +1,30 @@
 import { useCart } from "@/contexts/cart-context";
-import { SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar";
+import {
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "./ui/sidebar";
 import { ShoppingCartIcon } from "lucide-react";
+import { RollingNumber } from "./rolling-number";
 
 export default function CartSidebar() {
-    const cart = useCart();
-    const count = cart.count();
-    return (
-      <SidebarMenuItem>
-        <SidebarMenuButton asChild>
-          <a href="/cart">
-            <ShoppingCartIcon className="text-muted-foreground" />
-            Cart
-          </a>
-        </SidebarMenuButton>
-        <SidebarMenuBadge>
-          <span className="text-muted-foreground font-semibold">
-            {count} item{count > 1 ? "s" : ""}
-          </span>
-        </SidebarMenuBadge>
-      </SidebarMenuItem>
-    );
-  }
-  
+  const cart = useCart();
+  const count = cart.count();
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild>
+        <a href="/cart">
+          <ShoppingCartIcon className="text-muted-foreground" />
+          Cart
+        </a>
+      </SidebarMenuButton>
+      <SidebarMenuBadge>
+        <RollingNumber value={count} />{" "}
+        <span className="ml-1 text-muted-foreground font-semibold text-sm">
+          {" "}
+          item{count > 1 ? "s" : ""}
+        </span>
+      </SidebarMenuBadge>
+    </SidebarMenuItem>
+  );
+}
