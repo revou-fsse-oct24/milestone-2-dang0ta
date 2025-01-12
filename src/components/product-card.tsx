@@ -22,12 +22,12 @@ const ProductCard = ({
             />
             <div className="flex flex-row py-4 w-full items-start justify-between">
                 <div className="flex flex-col gap-2 flex-1 max-w-[250px]">
-                    <h3 className="font-medium leading-none capitalize">{product.title}</h3>
+                    <h3 className="font-medium leading-5 capitalize">{product.title}</h3>
                     <p className="text-xs text-muted-foreground text-ellipsis whitespace-nowrap overflow-hidden">
                         {product.description}
                     </p>
                 </div>
-                <p className="font-medium leading-none">${product.price}.00</p>
+                <p className="font-medium leading-5">${product.price}.00</p>
             </div>
         </div>
     );

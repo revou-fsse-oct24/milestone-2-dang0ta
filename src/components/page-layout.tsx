@@ -20,24 +20,36 @@ const FavoriteProvider = dynamic(() => import("@/contexts/favorite-context"), { 
 
 const PageLayout = ({ children }: { children: ReactNode; }) => {
     return (
+        <Providers>
+            <MainSidebar />
+            <SidebarInset>
+                <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                    <SidebarTrigger className="-ml-1" />
+                    <Separator orientation="vertical" className="mr-2 h-4" />
+                    <MainBreadcrumb />
+                </header>
+                <MainContainer>{children}</MainContainer>
+            </SidebarInset>
+        </Providers>
+    );
+};
+
+
+
+// combine all providers into one
+const Providers = ({ children }: { children: ReactNode; }) => {
+    return (
         <FavoriteProvider>
             <CartProvider>
                 <SidebarProvider>
-                    <MainSidebar />
-                    <SidebarInset>
-                        <BreadcrumbProvider>
-                            <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-                                <SidebarTrigger className="-ml-1" />
-                                <Separator orientation="vertical" className="mr-2 h-4" />
-                                <MainBreadcrumb />
-                            </header>
-                            <MainContainer>{children}</MainContainer>
-                        </BreadcrumbProvider>
-                    </SidebarInset>
+                    <BreadcrumbProvider>
+                        {children}
+                    </BreadcrumbProvider>
                 </SidebarProvider>
             </CartProvider>
         </FavoriteProvider>
     );
 };
+
 
 export default PageLayout;
