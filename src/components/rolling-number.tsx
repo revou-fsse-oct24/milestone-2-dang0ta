@@ -1,11 +1,9 @@
-import { cn } from "@/lib/utils";
-
 export const RollingNumber = ({ value }: { value: number }) => {
   const digitsArray = digits(value);
   return (
     <div className="flex overflow-hidden">
       {digitsArray.map((digit, i) => (
-        <Digit key={i} value={digit} />
+        <Digit key={`${digit}-${i}`} value={digit} />
       ))}
     </div>
   );
@@ -19,7 +17,7 @@ const Digit = ({ value }: { value: number }) => {
         width: "calc(.5rem + 1px)",
         height: "calc(1rem + 1px)",
       }}
-      className={cn("flex flex-col transition-transform")}
+      className="flex flex-col transition-transform"
     >
       {[...Array(10)
         .keys()]
