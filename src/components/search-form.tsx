@@ -8,12 +8,14 @@ import {
     SidebarInput,
 } from "@/components/ui/sidebar";
 import { useDebouncedCallback } from "use-debounce";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
+import { useRouter } from 'nextjs-toploader/app';
 import { useCallback } from "react";
 
 export function SearchForm({ ...props }: React.ComponentProps<"form">) {
 
     const router = useRouter();
+    const pathname = usePathname();
     const searchParams = useSearchParams();
 
     // Get a new searchParams string by merging the current
@@ -35,7 +37,7 @@ export function SearchForm({ ...props }: React.ComponentProps<"form">) {
     const onChange = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         router.push(
-            "products?" + createQueryString("title", value)
+           pathname + "?" + createQueryString("title", value)
         );
     }, 300);
 
