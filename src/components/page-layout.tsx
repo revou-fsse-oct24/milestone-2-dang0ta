@@ -1,14 +1,7 @@
 "use client";
 
 import { MainSidebar } from "@/components/main-sidebar";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+
 import { Separator } from "@/components/ui/separator";
 import {
     SidebarInset,
@@ -18,7 +11,10 @@ import {
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 import MainContainer from "./main-container";
+import { BreadcrumbProvider } from "@/contexts/breadcrumb-context";
+import { MainBreadcrumb } from "./main-breadcrumb";
 
+// disable SSR on both of these providers, since they rely on localStorage, which can't be pre-rendered by the Next.js server
 const CartProvider = dynamic(() => import("@/contexts/cart-context"), { ssr: false });
 const FavoriteProvider = dynamic(() => import("@/contexts/favorite-context"), { ssr: false });
 
@@ -29,22 +25,14 @@ const PageLayout = ({ children }: { children: ReactNode; }) => {
                 <SidebarProvider>
                     <MainSidebar />
                     <SidebarInset>
-                        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-                            <SidebarTrigger className="-ml-1" />
-                            <Separator orientation="vertical" className="mr-2 h-4" />
-                            <Breadcrumb>
-                                <BreadcrumbList>
-                                    <BreadcrumbItem className="hidden md:block">
-                                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                                    </BreadcrumbItem>
-                                    <BreadcrumbSeparator className="hidden md:block" />
-                                    <BreadcrumbItem>
-                                        <BreadcrumbPage>Products</BreadcrumbPage>
-                                    </BreadcrumbItem>
-                                </BreadcrumbList>
-                            </Breadcrumb>
-                        </header>
-                        <MainContainer>{children}</MainContainer>
+                        <BreadcrumbProvider>
+                            <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                                <SidebarTrigger className="-ml-1" />
+                                <Separator orientation="vertical" className="mr-2 h-4" />
+                                <MainBreadcrumb />
+                            </header>
+                            <MainContainer>{children}</MainContainer>
+                        </BreadcrumbProvider>
                     </SidebarInset>
                 </SidebarProvider>
             </CartProvider>

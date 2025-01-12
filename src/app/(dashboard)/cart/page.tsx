@@ -8,11 +8,13 @@ import Image from "next/image";
 import { getMainImage } from "@/models/product";
 import Link from "next/link";
 import { Category } from "@/models/category";
+import { BreadcrumbSetter } from "@/components/main-breadcrumb";
 
 const Cart = () => {
   const { allItems, total, count, clear } = useCart();
   return (
     <div className="flex flex-col gap-4 p-4">
+        <BreadcrumbSetter items={[{label: "Cart", href: "/cart"}]} />
       <div className="flex flex-row items-end w-full justify-between align-baseline">
         <CartHeader count={count()} clear={clear} />
         <CartAction total={total()} />

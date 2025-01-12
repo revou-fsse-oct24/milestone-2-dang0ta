@@ -1,4 +1,5 @@
 'use client';
+import { BreadcrumbSetter } from "@/components/main-breadcrumb";
 import { ProductWithCart } from "@/components/product-with-cart";
 import { ScrollBar } from "@/components/ui/scroll-area";
 import { useFavorite } from "@/contexts/favorite-context";
@@ -11,6 +12,7 @@ const Page = () => {
     if (products.length === 0) {
         return (
             <div className="flex flex-col gap-4 max-w-[83vw]">
+                <BreadcrumbSetter items={[{label: "Favorites", href: "/favorites"}]} />
                 <h3 className="text-xl font-bold leading-none capitalize">
                     Favorites
                 </h3>
@@ -26,6 +28,7 @@ const Page = () => {
 
     return (
         <div className="flex flex-col gap-4 max-w-[83vw]">
+            <BreadcrumbSetter items={[{label: "Favorites", href: "/favorites"}]} />
             <h3 className="text-xl font-bold leading-none capitalize">
                 Favorites
             </h3>

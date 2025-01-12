@@ -2,6 +2,7 @@ import { getProduct } from "@/actions/products";
 import { CartModifier } from "@/components/cart-modifier";
 import CategoryLoader from "@/components/category-loader";
 import CategorySkeleton from "@/components/category-skeleton";
+import { BreadcrumbSetter } from "@/components/main-breadcrumb";
 import { ProductImages } from "@/components/product-images";
 import { Separator } from "@/components/ui/separator";
 import { Suspense } from "react";
@@ -21,6 +22,7 @@ const Page = async ({
 
     return (
         <div className="flex flex-col gap-8">
+            <BreadcrumbSetter items={[{ label: "Products", href: "/products" }, { label: data.title, href: `/product/${data.id}}` }]} />
             <div className="gap-4 flex flex-row items-start">
                 <ProductImages images={data.images} />
                 <div className="flex flex-col justify-between">
