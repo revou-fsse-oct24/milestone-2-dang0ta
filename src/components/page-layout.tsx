@@ -41,7 +41,7 @@ const PageLayout = ({ children }: { children: ReactNode }) => {
             </BreadcrumbList>
           </Breadcrumb>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-8">{children}</div>
+        <div className="flex flex-1 flex-col gap-4 p-8 overflow-hidden">{children}</div>
       </SidebarInset>
     </SidebarProvider>
     </CartProvider>
