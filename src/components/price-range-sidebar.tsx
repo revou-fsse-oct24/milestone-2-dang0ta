@@ -20,7 +20,6 @@ export const PriceRangeSidebar = ({ className }: { className?: string; }) => {
     // searchParams with a provided key/value pair
     const createQueryString = (value?: number[]) => {
         const params = new URLSearchParams(searchParams?.toString());
-        console.log({ value });
         if (value) {
             params.set("price_min", `${value[0]}`);
             params.set("price_max", `${value[1]}`);
@@ -34,7 +33,6 @@ export const PriceRangeSidebar = ({ className }: { className?: string; }) => {
 
 
     const updateValue = useDebouncedCallback((value: number[]) => {
-        console.log({ value });
         setValue(value);
         router.push(pathname + "?" + createQueryString(value));
     }, 300);
