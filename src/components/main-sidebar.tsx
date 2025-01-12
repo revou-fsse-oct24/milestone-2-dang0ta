@@ -3,7 +3,6 @@ import { SearchForm } from "@/components/search-form";
 import {
     GalleryVerticalEnd,
     SpeakerIcon,
-    StarIcon,
 } from "lucide-react";
 import {
     Sidebar,
@@ -21,6 +20,7 @@ import {
 import { NavUser } from "./nav-user";
 import CategorySidebar from "./category-sidebar";
 import CartSidebar from "./cart-sidebar";
+import { FavoriteSidebar } from "./favorite-sidebar";
 
 // TODO: replace with real data
 const data = {
@@ -67,16 +67,7 @@ export function MainSidebar({
                                     </a>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
-
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <a href="/">
-                                        <StarIcon className="text-muted-foreground" />
-                                        Favorites
-                                    </a>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-
+                            <FavoriteSidebar />
                             <CartSidebar />
                         </SidebarMenu>
                     </SidebarGroupContent>

@@ -84,12 +84,12 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const total = (): number => {
     return [...Object.keys(items)].reduce((acc, cur) => {
-      const keyn = Number(cur);
-      if (Number.isNaN(keyn)) {
+      const n = Number(cur);
+      if (Number.isNaN(n)) {
         return acc;
       }
 
-      const item = items[keyn];
+      const item = items[n];
 
       acc += item.quantity * (item.product.price || 0);
       return acc;
