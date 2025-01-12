@@ -1,7 +1,7 @@
 "use client";
 
 import { Product } from "@/models/product";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useMemo, useState } from "react";
 
 export type CartItem = {
   product: Product;
@@ -117,24 +117,26 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("cart");
   };
 
+  const value = useMemo(() => ({
+    items,
+    addItem,
+    removeItem,
+    total,
+    count,
+    get,
+    allItems,
+    clear,
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [items]);
+
   return (
-    <CartContext.Provider
-      value={{
-        items,
-        addItem,
-        removeItem,
-        total,
-        count,
-        get,
-        allItems,
-        clear,
-      }}
-    >
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCart = () => useContext(CartContext);
 
 export default CartProvider;
