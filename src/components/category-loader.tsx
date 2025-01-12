@@ -56,7 +56,7 @@ const CategoryLoader = async ({
     }
 
     return (
-        <div className={cn(className, "flex flex-col gap-4 max-w-[83vw]")}>
+        <div className={cn(className, "flex flex-col gap-4 w-full")}>
             <h3 className="text-xl font-bold leading-none capitalize">
                 {category.name}
             </h3>

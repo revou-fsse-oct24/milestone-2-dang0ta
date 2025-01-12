@@ -20,7 +20,7 @@ const Page = async ({
     }
 
     return (
-        <div className="p-8 flex flex-col gap-8">
+        <div className="flex flex-col gap-8">
             <div className="gap-4 flex flex-row items-start">
                 <ProductImages images={data.images} />
                 <div className="flex flex-col justify-between">

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sidebar";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
+import MainContainer from "./main-container";
 
 const CartProvider = dynamic(() => import("@/contexts/cart-context"), { ssr: false });
 const FavoriteProvider = dynamic(() => import("@/contexts/favorite-context"), { ssr: false });
@@ -43,7 +44,7 @@ const PageLayout = ({ children }: { children: ReactNode; }) => {
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </header>
-                        <div className="flex flex-1 flex-col gap-4 p-8 overflow-hidden">{children}</div>
+                        <MainContainer>{children}</MainContainer>
                     </SidebarInset>
                 </SidebarProvider>
             </CartProvider>
