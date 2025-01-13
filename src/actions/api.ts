@@ -91,6 +91,8 @@ export const getUserURL = (): string => new URL("api/v1/auth/profile", baseURL()
  */
 export const refreshTokenURL = (): string => new URL("api/v1/auth/refresh", baseURL()).toString();
 
+export const createUserURL = (): string => new URL("/api/v1/users/", baseURL()).toString();
+
 /**
  * Response is a generic response for all API call responses, 
  * it provides parsed error message to ease up error handling on component-level.

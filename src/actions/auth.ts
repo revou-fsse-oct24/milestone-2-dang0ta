@@ -1,5 +1,16 @@
-import { loginURL, getUserURL, Response, refreshTokenURL } from "./api";
+"use server";
+import { cookies } from "next/headers";
+import {
+  loginURL,
+  getUserURL,
+  Response,
+  refreshTokenURL,
+  createUserURL,
+} from "./api";
 import { parseError } from "./exceptions";
+import { redirect } from "next/navigation";
+import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
 /**
  * Represents the response from a login request.
@@ -9,6 +20,11 @@ type LoginResponse = {
   refresh_token: string;
 };
 
+const credential = z.object({
+  email: z.string().email().min(1),
+  password: z.string().min(1),
+});
+
 /**
  * Logs in a user with the provided email and password.
  * @param {Object} params - The parameters for logging in.
@@ -16,50 +32,59 @@ type LoginResponse = {
  * @param {string} params.password - The password of the user.
  * @returns {Promise<Response<LoginResponse | null>>} The response containing the login tokens.
  */
-export async function login({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}): Promise<Response<LoginResponse | null>> {
-  try {
-    const res = await fetch(loginURL(), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (!res.ok) {
-      console.warn(res.statusText);
-      return {
-        status: "error",
-        data: null,
-        error: "An error occurred while fetching the data",
-      };
-    }
-
-    const data = (await res.json()) as LoginResponse;
-    return { status: "success", data };
-  } catch (e) {
-    const parsedErr = parseError(e);
-    return { status: "error", data: null, error: parsedErr.message };
+export async function login(
+  _: string,
+  loginCredential: FormData
+): Promise<string> {
+  const parsed = credential.safeParse({
+    email: loginCredential.get("email"),
+    password: loginCredential.get("password"),
+  });
+  if (!parsed.success || !parsed.data) {
+    return "invalid login credential";
   }
+
+  const res = await fetch(loginURL(), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: parsed.data.email,
+      password: parsed.data.password,
+    }),
+  });
+
+  if (!res.ok) {
+    switch (res.status) {
+      case 401:
+        return "wrong email and/or password";
+      case 403:
+        return "you're not allowed to do this!";
+    }
+    return "An error occurred while fetching the data";
+  }
+
+  const response = (await res.json()) as LoginResponse;
+  (await cookies()).set("access_token", response.access_token);
+  revalidatePath("/");
+  redirect("/");
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const userSchema = z.object({
+  id: z.number().min(0),
+  email: z.string().email().min(1),
+  password: z.string().optional(),
+  name: z.string().min(3),
+  role: z.string().optional(),
+  avatar: z.string().url().default("https://picsum.photos/800"),
+});
 
 /**
  * Represents a user.
  */
-type User = {
-  id: number;
-  email: string;
-  name: string;
-  role: string;
-  avatar: string;
-};
-
+type User = z.infer<typeof userSchema>;
 /**
  * Fetches the user profile using the provided token.
  * @param {string} token - The access token of the user.
@@ -74,7 +99,6 @@ export async function getUser(token: string): Promise<Response<User>> {
     });
 
     if (!res.ok) {
-      console.warn(res.statusText);
       return {
         status: "error",
         data: { id: 0, email: "", name: "", role: "", avatar: "" },
@@ -112,7 +136,6 @@ export async function refreshToken(
     });
 
     if (!res.ok) {
-      console.warn(res.statusText);
       return {
         status: "error",
         data: null,
@@ -126,4 +149,43 @@ export async function refreshToken(
     const parsedErr = parseError(e);
     return { status: "error", data: null, error: parsedErr.message };
   }
+}
+
+const createUserParams = z.object({
+  email: z.string().email().min(1),
+  password: z.string().optional(),
+  name: z.string().min(3),
+  avatar: z.string().nullish().transform((s) => s ?? "https://picsum.photos/800"),
+});
+
+export type CreateUserParams = z.infer<typeof createUserParams>;
+
+export async function createUser(
+  _: string,
+  formData: FormData
+): Promise<string> {
+  const parsed = createUserParams.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+    name: formData.get("name"),
+    avatar: formData.get("avatar"),
+  });
+
+  if (!parsed.success || !parsed.data) {
+    return "invalid user information";
+  }
+
+  const res = await fetch(createUserURL(), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(parsed.data),
+  });
+
+  if (!res.ok) {
+    return `failed to create user, the server responded with status:${res.statusText}`;
+  }
+
+  redirect("/login");
 }
