@@ -186,4 +186,5 @@ export async function logout(): Promise<void> {
     (await cookies()).delete("access_token")
     revalidatePath("/")
     redirect("/")
+    
 }

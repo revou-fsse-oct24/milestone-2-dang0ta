@@ -38,8 +38,10 @@ import Link from "next/link";
 
 export function NavUser() {
     const [token] = useCookie('access_token', "");
+    console.log({token})
     const { isMobile } = useSidebar();
     const [response, action, loading] = useActionState(getUser, { status: "success", data: defaultUser() } as Response<User | null>);
+    console.log({response})
 
     useEffect(() => {
         startTransition(() => action(token));
@@ -171,7 +173,7 @@ function LogoutButton() {
     }
 
     return (
-        <DropdownMenuItem onClick={() => startTransition(() => action())}>
+        <DropdownMenuItem onClick={() => startTransition(action)}>
             <LogOut />
             Log out
         </DropdownMenuItem>
