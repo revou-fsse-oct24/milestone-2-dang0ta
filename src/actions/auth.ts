@@ -12,6 +12,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { User } from "@/models/user";
+import { addDays } from "date-fns";
 
 /**
  * Represents the response from a login request.
@@ -67,7 +68,7 @@ export async function login(
   }
 
   const response = (await res.json()) as LoginResponse;
-  (await cookies()).set("access_token", response.access_token);
+  (await cookies()).set("access_token", response.access_token, {secure: true, expires: addDays(new Date(), 1), sameSite: 'strict', httpOnly: true});
   revalidatePath("/");
   redirect("/");
 }
@@ -77,15 +78,16 @@ export async function login(
  * @param {string} token - The access token of the user.
  * @returns {Promise<Response<User>>} The response containing the user profile.
  */
-export async function getUser(_: Response<User | null>, token: string): Promise<Response<User | null>> {
-    if (!token) {
+export async function getUser(): Promise<Response<User | null>> {
+    const accessToken = (await cookies()).get("access_token")?.value;
+    if (!accessToken) {
         return {status: "success", data: null}
     }
 
   try {
     const res = await fetch(getUserURL(), {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 

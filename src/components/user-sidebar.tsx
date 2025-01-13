@@ -33,20 +33,16 @@ import { startTransition, useActionState, useEffect } from "react";
 import { getUser, logout } from "@/actions/auth";
 import { Response } from "@/actions/api";
 import { defaultUser, User } from "@/models/user";
-import useCookie from 'react-use-cookie';
 import Link from "next/link";
 
 export function NavUser() {
-    const [token] = useCookie('access_token', "");
-    console.log({token})
     const { isMobile } = useSidebar();
     const [response, action, loading] = useActionState(getUser, { status: "success", data: defaultUser() } as Response<User | null>);
-    console.log({response})
 
     useEffect(() => {
-        startTransition(() => action(token));
+        startTransition(() => action());
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [token]);
+    }, []);
 
     if (response.status == "error") {
         return (
