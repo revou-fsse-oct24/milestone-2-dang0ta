@@ -17,20 +17,11 @@ import {
     SidebarMenuItem,
     SidebarRail,
 } from "@/components/ui/sidebar";
-import { NavUser } from "./nav-user";
+import { NavUser } from "./user-sidebar";
 import CategorySidebar from "./category-sidebar";
 import CartSidebar from "./cart-sidebar";
 import { FavoriteSidebar } from "./favorite-sidebar";
 import { PriceRangeSidebar } from "./price-range-sidebar";
-
-// TODO: replace with real data
-const data = {
-    user: {
-        name: "test",
-        email: "test@gmail.com",
-        avatar: "string",
-    },
-};
 
 export function MainSidebar({
     ...props
@@ -77,7 +68,7 @@ export function MainSidebar({
                 <PriceRangeSidebar />
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={data.user} />
+                <NavUser/>
             </SidebarFooter>
             <SidebarRail />
         </Sidebar>

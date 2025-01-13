@@ -11,6 +11,7 @@ import { parseError } from "./exceptions";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { User } from "@/models/user";
 
 /**
  * Represents the response from a login request.
@@ -71,26 +72,16 @@ export async function login(
   redirect("/");
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const userSchema = z.object({
-  id: z.number().min(0),
-  email: z.string().email().min(1),
-  password: z.string().optional(),
-  name: z.string().min(3),
-  role: z.string().optional(),
-  avatar: z.string().url().default("https://picsum.photos/800"),
-});
-
-/**
- * Represents a user.
- */
-type User = z.infer<typeof userSchema>;
 /**
  * Fetches the user profile using the provided token.
  * @param {string} token - The access token of the user.
  * @returns {Promise<Response<User>>} The response containing the user profile.
  */
-export async function getUser(token: string): Promise<Response<User>> {
+export async function getUser(_: Response<User | null>, token: string): Promise<Response<User | null>> {
+    if (!token) {
+        return {status: "success", data: null}
+    }
+
   try {
     const res = await fetch(getUserURL(), {
       headers: {
@@ -188,4 +179,11 @@ export async function createUser(
   }
 
   redirect("/login");
+}
+
+
+export async function logout(): Promise<void> {
+    (await cookies()).delete("access_token")
+    revalidatePath("/")
+    redirect("/")
 }
