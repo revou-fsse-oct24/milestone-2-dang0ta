@@ -26,13 +26,15 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar";
-import { logout } from "@/actions/auth";
 import Link from "next/link";
 import useSWR from "swr";
 import { User } from "@/models/user";
 import { handleResError } from "@/actions/error";
+import { parseError } from "@/actions/exceptions";
+import { useRouter } from "next/router";
 
 export function UserSidebar() {
+    const router = useRouter();
     const { isMobile } = useSidebar();
     const { data: user, isLoading, error } = useSWR<User | null>('/api/user', async (): Promise<User | null> => {
           const res = await fetch('/api/user');
@@ -43,6 +45,25 @@ export function UserSidebar() {
           const user =  (await res.json()) as User;
           return user;
     });
+
+    const logout =async () => {
+        try {
+            const res = await fetch('/api/logout');
+            if (!res.ok) {
+                const message = await res.text();
+                console.warn(res.statusText, message);
+            }
+
+             if (res.redirected) {
+                router.replace(res.url);
+             } else {
+                router.reload();
+             }
+        } catch(e) {
+            const parsedErr = parseError(e);
+            console.warn(parsedErr.message);
+        }
+    }
 
     if (error) {
         return (
