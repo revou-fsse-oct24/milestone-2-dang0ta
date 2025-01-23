@@ -68,10 +68,16 @@ export async function login(
   }
 
   const response = (await res.json()) as LoginResponse;
-  (await cookies()).set("access_token", response.access_token, {secure: true, expires: addDays(new Date(), 1), sameSite: 'strict', httpOnly: true});
+  (await cookies()).set("access_token", response.access_token, {
+    secure: true,
+    expires: addDays(new Date(), 1),
+    sameSite: "strict",
+    httpOnly: true,
+  });
   revalidatePath("/");
   redirect("/");
 }
+
 
 /**
  * Fetches the user profile using the provided token.
@@ -148,7 +154,10 @@ const createUserParams = z.object({
   email: z.string().email().min(1),
   password: z.string().optional(),
   name: z.string().min(3),
-  avatar: z.string().nullish().transform((s) => s ?? "https://picsum.photos/800"),
+  avatar: z
+    .string()
+    .nullish()
+    .transform((s) => s ?? "https://picsum.photos/800"),
 });
 
 export type CreateUserParams = z.infer<typeof createUserParams>;
@@ -183,10 +192,8 @@ export async function createUser(
   redirect("/login");
 }
 
-
 export async function logout(): Promise<void> {
-    (await cookies()).delete("access_token")
-    revalidatePath("/")
-    redirect("/")
-    
+  (await cookies()).delete("access_token");
+  revalidatePath("/");
+  redirect("/");
 }

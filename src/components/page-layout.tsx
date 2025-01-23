@@ -13,6 +13,7 @@ import { ReactNode } from "react";
 import MainContainer from "./main-container";
 import { BreadcrumbProvider } from "@/contexts/breadcrumb-context";
 import { MainBreadcrumb } from "./main-breadcrumb";
+import { NavUser } from "./user-sidebar";
 
 // disable SSR on both of these providers, since they rely on localStorage, which can't be pre-rendered by the Next.js server
 const CartProvider = dynamic(() => import("@/contexts/cart-context"), { ssr: false });
@@ -21,7 +22,7 @@ const FavoriteProvider = dynamic(() => import("@/contexts/favorite-context"), { 
 const PageLayout = ({ children }: { children: ReactNode; }) => {
     return (
         <Providers>
-            <MainSidebar />
+            <MainSidebar footer={<NavUser />} />
             <SidebarInset>
                 <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
                     <SidebarTrigger className="-ml-1" />
@@ -33,8 +34,6 @@ const PageLayout = ({ children }: { children: ReactNode; }) => {
         </Providers>
     );
 };
-
-
 
 // combine all providers into one
 const Providers = ({ children }: { children: ReactNode; }) => {
