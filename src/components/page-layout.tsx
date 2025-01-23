@@ -5,19 +5,15 @@ import { MainSidebar } from "@/components/main-sidebar";
 import { Separator } from "@/components/ui/separator";
 import {
     SidebarInset,
-    SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar";
-import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 import MainContainer from "./main-container";
-import { BreadcrumbProvider } from "@/contexts/breadcrumb-context";
 import { MainBreadcrumb } from "./main-breadcrumb";
 import { NavUser } from "./user-sidebar";
+import { Providers } from "@/providers/global.provider";
 
-// disable SSR on both of these providers, since they rely on localStorage, which can't be pre-rendered by the Next.js server
-const CartProvider = dynamic(() => import("@/contexts/cart-context"), { ssr: false });
-const FavoriteProvider = dynamic(() => import("@/contexts/favorite-context"), { ssr: false });
+
 
 const PageLayout = ({ children }: { children: ReactNode; }) => {
     return (
@@ -34,21 +30,4 @@ const PageLayout = ({ children }: { children: ReactNode; }) => {
         </Providers>
     );
 };
-
-// combine all providers into one
-const Providers = ({ children }: { children: ReactNode; }) => {
-    return (
-        <FavoriteProvider>
-            <CartProvider>
-                <SidebarProvider>
-                    <BreadcrumbProvider>
-                        {children}
-                    </BreadcrumbProvider>
-                </SidebarProvider>
-            </CartProvider>
-        </FavoriteProvider>
-    );
-};
-
-
 export default PageLayout;
