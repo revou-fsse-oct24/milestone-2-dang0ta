@@ -8,8 +8,8 @@ import { ShoppingCartIcon } from "lucide-react";
 import { RollingNumber } from "./rolling-number";
 
 export default function CartSidebar() {
-  const cart = useCart();
-  const count = cart.count();
+  const {count} = useCart();
+  
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild>
@@ -19,10 +19,10 @@ export default function CartSidebar() {
         </a>
       </SidebarMenuButton>
       <SidebarMenuBadge>
-        <RollingNumber value={count} />{" "}
+        <RollingNumber value={count()} />{" "}
         <span className="ml-1 text-muted-foreground font-semibold text-sm">
           {" "}
-          item{count > 1 ? "s" : ""}
+          item{count() > 1 ? "s" : ""}
         </span>
       </SidebarMenuBadge>
     </SidebarMenuItem>
