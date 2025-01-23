@@ -1,6 +1,11 @@
-'use server';
+"use server";
 
-import { cleanProduct, defaultProduct, Product, validateProduct } from "@/models/product";
+import {
+  cleanProduct,
+  defaultProduct,
+  Product,
+  validateProduct,
+} from "@/models/product";
 import {
   getProductsURL,
   getProductURL,
@@ -11,13 +16,44 @@ import {
 import { parseError } from "./exceptions";
 import { skipErroneousFunctional } from "@/lib/skipErroneous";
 import { uniqueOnly } from "@/lib/uniqueOnly";
+import { handleResError } from "./error";
+
+export async function queryProductsFetcher(
+  query: ProductsQuery
+): Promise<Product[]> {
+  const res = await fetch(queryProductsURL(query));
+  await handleResError(res);
+  return uniqueOnly(
+    skipErroneousFunctional<Product>(
+      ((await res.json()) as Product[]).map((product) => cleanProduct(product)),
+      validateProduct
+    )
+  );
+}
 
 export async function queryProducts(
   query: ProductsQuery
 ): Promise<Response<Product[]>> {
   try {
-    const url = queryProductsURL(query);
-    const res = await fetch(url);
+    return {
+      status: "success",
+      data: await queryProductsFetcher(query),
+    };
+  } catch (e) {
+    const parsedErr = parseError(e);
+    return { status: "error", data: [], error: parsedErr.message };
+  }
+}
+
+/**
+ * Fetches a list of latest 10 products from the API.
+ * @param {Object} params - The parameters for fetching products.
+ * @param {number} params.offset - The offset for pagination.
+ * @returns {Promise<Response<Product[]>>} The response containing the list of products.
+ */
+export async function getLatestProducts(): Promise<Response<Product[]>> {
+  try {
+    const res = await fetch(getProductsURL());
     if (!res.ok) {
       console.warn(res.statusText);
       return {
@@ -41,38 +77,6 @@ export async function queryProducts(
 }
 
 /**
- * Fetches a list of latest 10 products from the API.
- * @param {Object} params - The parameters for fetching products.
- * @param {number} params.offset - The offset for pagination.
- * @returns {Promise<Response<Product[]>>} The response containing the list of products.
- */
-export async function getLatestProducts(): Promise<Response<Product[]>> {
-  try {
-
-    const res = await fetch(getProductsURL());
-    if (!res.ok) {
-      console.warn(res.statusText);
-      return {
-        status: "error",
-        data: [],
-        error: "An error occurred while fetching the data",
-      };
-    }
-
-    const raws = ((await res.json()) as Product[]).map((product) =>
-        cleanProduct(product)
-      );
-      return {
-        status: "success",
-        data: uniqueOnly(skipErroneousFunctional<Product>(raws, validateProduct)),
-      };
-  } catch (e) {
-    const parsedErr = parseError(e);
-    return { status: "error", data: [], error: parsedErr.message };
-  }
-}
-
-/**
  * Fetches a single product by its ID from the API.
  * @param {Object} params - The parameters for fetching the product.
  * @param {string} params.id - The ID of the product.
@@ -83,8 +87,6 @@ export async function getProduct({
 }: {
   id: string;
 }): Promise<Response<Product>> {
-  
-
   try {
     const res = await fetch(getProductURL({ id }));
     if (!res.ok) {

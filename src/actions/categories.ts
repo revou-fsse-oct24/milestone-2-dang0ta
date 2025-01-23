@@ -5,6 +5,15 @@ import { getCategoriesURL, getCategoryURL, Response } from "./api";
 import { Category, defaultCategory, validateCategory } from "@/models/category";
 import { skipErroneousFunctional } from "@/lib/skipErroneous";
 import { uniqueOnly } from "@/lib/uniqueOnly";
+import { handleResError } from "./error";
+
+
+
+export async function getCategoriesFetcher(): Promise<Category[]> {
+    const res = await fetch(getCategoriesURL());
+    await handleResError(res);
+    return uniqueOnly(skipErroneousFunctional<Category>((await res.json()), validateCategory))
+}
 
 /**
  * Fetches a list of categories from the API.
@@ -12,21 +21,9 @@ import { uniqueOnly } from "@/lib/uniqueOnly";
  */
 export async function getCategories(): Promise<Response<Category[]>> {
   try {
-
-    const res = await fetch(getCategoriesURL());
-    if (!res.ok) {
-      console.warn(res.statusText);
-      return {
-        status: "error",
-        data: [],
-        error: "An error occurred while fetching the data",
-      };
-    }
-
-    const raws = (await res.json()) as Category[];
     return {
       status: "success",
-      data: uniqueOnly(skipErroneousFunctional<Category>(raws, validateCategory))
+      data: await getCategoriesFetcher()
     };
   } catch (e) {
     const parsedErr = parseError(e);

@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useActionState } from "react";
-import { createUser } from "@/actions/auth";
+import { createUserAction } from "@/actions/auth";
 import { Loader2Icon } from "lucide-react";
 import { Label } from "./ui/label";
 
@@ -14,7 +14,7 @@ export function RegisterForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
-    const [error, action, loading] = useActionState(createUser, "");
+    const [error, action, loading] = useActionState(createUserAction, "");
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
