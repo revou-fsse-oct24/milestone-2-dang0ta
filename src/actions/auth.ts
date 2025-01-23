@@ -9,23 +9,12 @@ import {
 } from "./api";
 import { parseError } from "./exceptions";
 import { redirect } from "next/navigation";
-import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { User } from "@/models/user";
 import { addDays } from "date-fns";
+import { Credential, credential, LoginResponse } from "@/models/login-credential";
+import { userInformation, UserInformation } from "@/models/user-information";
 
-/**
- * Represents the response from a login request.
- */
-type LoginResponse = {
-  access_token: string;
-  refresh_token: string;
-};
-
-const credential = z.object({
-  email: z.string().email().min(1),
-  password: z.string().min(1),
-});
 
 /**
  * Logs in a user with the provided email and password.
@@ -34,7 +23,7 @@ const credential = z.object({
  * @param {string} params.password - The password of the user.
  * @returns {Promise<Response<LoginResponse | null>>} The response containing the login tokens.
  */
-export async function login(
+export async function loginAction(
   _: string,
   loginCredential: FormData
 ): Promise<string> {
@@ -68,10 +57,59 @@ export async function login(
   }
 
   const response = (await res.json()) as LoginResponse;
-  (await cookies()).set("access_token", response.access_token, {secure: true, expires: addDays(new Date(), 1), sameSite: 'strict', httpOnly: true});
+  (await cookies()).set("access_token", response.access_token, {
+    secure: true,
+    expires: addDays(new Date(), 1),
+    sameSite: "strict",
+    httpOnly: true,
+  });
   revalidatePath("/");
   redirect("/");
 }
+
+export async function login(
+    {email, password}: Credential): Promise<string> {
+    const parsed = credential.safeParse({
+      email,
+      password,
+    });
+
+    if (!parsed.success || !parsed.data) {
+      return "invalid login credential";
+    }
+  
+    const res = await fetch(loginURL(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: parsed.data.email,
+        password: parsed.data.password,
+      }),
+    });
+  
+    if (!res.ok) {
+      switch (res.status) {
+        case 401:
+          return "wrong email and/or password";
+        case 403:
+          return "you're not allowed to do this!";
+      }
+      return "An error occurred while fetching the data";
+    }
+  
+    const response = (await res.json()) as LoginResponse;
+    (await cookies()).set("access_token", response.access_token, {
+      secure: true,
+      expires: addDays(new Date(), 1),
+      sameSite: "strict",
+      httpOnly: true,
+    });
+    revalidatePath("/");
+    redirect("/");
+  }
+
 
 /**
  * Fetches the user profile using the provided token.
@@ -144,20 +182,39 @@ export async function refreshToken(
   }
 }
 
-const createUserParams = z.object({
-  email: z.string().email().min(1),
-  password: z.string().optional(),
-  name: z.string().min(3),
-  avatar: z.string().nullish().transform((s) => s ?? "https://picsum.photos/800"),
-});
-
-export type CreateUserParams = z.infer<typeof createUserParams>;
-
 export async function createUser(
+    info: UserInformation
+  ): Promise<string> {
+    const parsed = userInformation.safeParse({
+      ...info,
+    });
+  
+    if (!parsed.success || !parsed.data) {
+      return "invalid user information";
+    }
+  
+    const res = await fetch(createUserURL(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(parsed.data),
+    });
+  
+    if (!res.ok) {
+      return `failed to create user, the server responded with status:${res.statusText}`;
+    }
+  
+    redirect("/login");
+  }
+
+
+
+export async function createUserAction(
   _: string,
   formData: FormData
 ): Promise<string> {
-  const parsed = createUserParams.safeParse({
+  const parsed = userInformation.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
     name: formData.get("name"),
@@ -183,10 +240,8 @@ export async function createUser(
   redirect("/login");
 }
 
-
 export async function logout(): Promise<void> {
-    (await cookies()).delete("access_token")
-    revalidatePath("/")
-    redirect("/")
-    
+  (await cookies()).delete("access_token");
+  revalidatePath("/");
+  redirect("/");
 }

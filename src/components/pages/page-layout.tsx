@@ -1,24 +1,20 @@
 "use client";
 
 import { MainSidebar } from "@/components/main-sidebar";
-
 import { Separator } from "@/components/ui/separator";
 import {
     SidebarInset,
     SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { ReactNode } from "react";
-import MainContainer from "./main-container";
-import { MainBreadcrumb } from "./main-breadcrumb";
-import { NavUser } from "./user-sidebar";
-import { Providers } from "@/providers/global.provider";
-
-
+import MainContainer from "@/components/main-container";
+import { MainBreadcrumb } from "@/components/main-breadcrumb";
+import { UserSidebar } from "@/components/pages/navigation/user-sidebar";
 
 const PageLayout = ({ children }: { children: ReactNode; }) => {
     return (
-        <Providers>
-            <MainSidebar footer={<NavUser />} />
+        <>
+            <MainSidebar footer={<UserSidebar />} />
             <SidebarInset>
                 <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
                     <SidebarTrigger className="-ml-1" />
@@ -27,7 +23,8 @@ const PageLayout = ({ children }: { children: ReactNode; }) => {
                 </header>
                 <MainContainer>{children}</MainContainer>
             </SidebarInset>
-        </Providers>
+        </>
     );
 };
+
 export default PageLayout;

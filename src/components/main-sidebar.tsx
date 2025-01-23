@@ -17,15 +17,16 @@ import {
     SidebarMenuItem,
     SidebarRail,
 } from "@/components/ui/sidebar";
-import { NavUser } from "./user-sidebar";
 import CategorySidebar from "./category-sidebar";
 import CartSidebar from "./cart-sidebar";
 import { FavoriteSidebar } from "./favorite-sidebar";
 import { PriceRangeSidebar } from "./price-range-sidebar";
+import { ReactNode } from "react";
 
 export function MainSidebar({
+    footer,
     ...props
-}: React.ComponentProps<typeof Sidebar>) {
+}: React.ComponentProps<typeof Sidebar> & { readonly footer?: ReactNode }) {
     return (
         <Sidebar {...props}>
             <SidebarHeader>
@@ -68,7 +69,7 @@ export function MainSidebar({
                 <PriceRangeSidebar />
             </SidebarContent>
             <SidebarFooter>
-                <NavUser/>
+                {footer}
             </SidebarFooter>
             <SidebarRail />
         </Sidebar>

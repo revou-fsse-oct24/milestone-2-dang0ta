@@ -1,4 +1,4 @@
-import "./globals.css";
+import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 import { siteConfig } from "@/config/site";
 import { type ReactNode } from "react";

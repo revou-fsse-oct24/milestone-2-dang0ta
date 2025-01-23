@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useActionState } from "react";
-import { login } from "@/actions/auth";
+import { loginAction } from "@/actions/auth";
 import { Loader2Icon } from "lucide-react";
 import { Label } from "./ui/label";
 
@@ -14,7 +14,7 @@ export function LoginForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
-    const [error, action, loading] = useActionState(login, "");
+    const [error, action, loading] = useActionState(loginAction, "");
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>

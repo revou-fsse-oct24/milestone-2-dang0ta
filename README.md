@@ -8,7 +8,7 @@ This project is created as a requirement for passing Module 4, which is part of 
 - [x] Utilize APIs to fetch and display data within the application.
 - [ ] Implement robust testing methodologies to ensure application reliability.
 - [x] Enhance the application using Next.js features and advanced routing techniques.
-- [ ] Manage data effectively, including authentication and integration of middleware.
+- [x] Manage data effectively, including authentication and integration of middleware.
 
 ## Installation
 This project is powered by [Next.js](https://nextjs.org/), and all the scripts required to get up and running are available in the `package.json` file.
