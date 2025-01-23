@@ -1,4 +1,3 @@
-import { createUserURL } from "@/actions/api";
 import { parseError } from "@/actions/exceptions";
 import { RegisterForm } from "@/components/pages/authentication/register-form";
 import { userInformation, UserInformation } from "@/models/user-information";
@@ -19,25 +18,28 @@ export default function RegisterPage() {
                     }
 
                     try {
-                        const res = await fetch(createUserURL(), {
+                        const res = await fetch('/api/register', {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
                             },
                             body: JSON.stringify(parsed.data),
+                            redirect: 'follow'
                         });
 
                         if (!res.ok) {
                             return `failed to create user, the server responded with status:${res.statusText}`;
+                        }
+
+                        if (res.redirected) {
+                            router.replace(res.url);
                         }
                     } catch (e) {
                         const parsedErr = parseError(e);
                         return parsedErr.message;
                     }
 
-                    router.push("/login");
                     return "";
-
                 }} />
             </div>
         </div>

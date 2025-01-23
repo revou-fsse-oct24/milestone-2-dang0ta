@@ -80,7 +80,6 @@ export const getServerSideProps = (async (context) => {
 }) satisfies GetServerSideProps<Props>;
 
 export default function Page({ products: data, category, error, breadcrumbs: items }: Readonly<InferGetServerSidePropsType<typeof getServerSideProps>>) {
-    console.log({ category });
     if (error) {
         return <PageLayout><div>Error: {error}</div></PageLayout>;
     }

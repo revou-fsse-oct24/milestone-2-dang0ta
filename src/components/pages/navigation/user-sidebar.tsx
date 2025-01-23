@@ -27,7 +27,6 @@ import {
     useSidebar,
 } from "@/components/ui/sidebar";
 import { logout } from "@/actions/auth";
-import { getUserURL } from "@/actions/api";
 import Link from "next/link";
 import useSWR from "swr";
 import { User } from "@/models/user";
@@ -35,21 +34,16 @@ import { handleResError } from "@/actions/error";
 
 export function UserSidebar() {
     const { isMobile } = useSidebar();
-    const { data, isLoading, error } = useSWR<User | null>(getUserURL(), async (): Promise<User | null> => {
-        const accessToken = document.cookie.split(";").find((c) => c.includes("access_token"))?.split("=")[1];
-          if (!accessToken) {
-            return null;
+    const { data: user, isLoading, error } = useSWR<User | null>('/api/user', async (): Promise<User | null> => {
+          const res = await fetch('/api/user');
+          if (res.status == 401) {
+                return null;
           }
-        
-          const res = await fetch(getUserURL(), {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-        
           await handleResError(res);
-          return (await res.json()) as User;
+          const user =  (await res.json()) as User;
+          return user;
     });
+
     if (error) {
         return (
             <SidebarMenu>
@@ -64,7 +58,7 @@ export function UserSidebar() {
         );
     }
 
-    if (!data) {
+    if (!user) {
         return (
             <SidebarMenu>
                 <SidebarMenuItem>
@@ -112,12 +106,12 @@ export function UserSidebar() {
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                         >
                             <Avatar className="h-8 w-8 rounded-lg">
-                                <AvatarImage src={data.avatar} alt={data.name} />
+                                <AvatarImage src={user.avatar} alt={user.name} />
                                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold">{data.name}</span>
-                                <span className="truncate text-xs">{data.email}</span>
+                                <span className="truncate font-semibold">{user.name}</span>
+                                <span className="truncate text-xs">{user.email}</span>
                             </div>
                             <ChevronsUpDown className="ml-auto size-4" />
                         </SidebarMenuButton>
@@ -131,12 +125,12 @@ export function UserSidebar() {
                         <DropdownMenuLabel className="p-0 font-normal">
                             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                 <Avatar className="h-8 w-8 rounded-lg">
-                                    <AvatarImage src={data.avatar} alt={data.name} />
+                                    <AvatarImage src={user.avatar} alt={user.name} />
                                     <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold">{data.name}</span>
-                                    <span className="truncate text-xs">{data.email}</span>
+                                    <span className="truncate font-semibold">{user.name}</span>
+                                    <span className="truncate text-xs">{user.email}</span>
                                 </div>
                             </div>
                         </DropdownMenuLabel>
