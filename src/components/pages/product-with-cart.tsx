@@ -9,7 +9,7 @@ import { FavoriteModifier } from "./favorite-modifier";
 export const ProductWithCart = ({ product }: { product: Product; }) => {
     return (
         <div key={product.id} className="flex flex-col items-start">
-            <Link href={`/product/${product.id}`}>
+            <Link href={`/shop/product/${product.id}`}>
                 <ProductCard product={product} />
             </Link>
             <div className="flex flex-row justify-between w-full items-center">

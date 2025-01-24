@@ -7,8 +7,6 @@ import { skipErroneousFunctional } from "@/lib/skipErroneous";
 import { uniqueOnly } from "@/lib/uniqueOnly";
 import { handleResError } from "./error";
 
-
-
 export async function getCategoriesFetcher(): Promise<Category[]> {
     const res = await fetch(getCategoriesURL());
     await handleResError(res);

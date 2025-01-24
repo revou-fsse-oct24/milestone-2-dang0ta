@@ -30,7 +30,7 @@ export default function Page({ product: data, error }: InferGetServerSidePropsTy
     return (
         <PageLayout>
             <div className="flex flex-col gap-8">
-                <BreadcrumbSetter items={[{ label: "Products", href: "/products" }, { label: data.title, href: `/product/${data.id}}` }]} />
+                <BreadcrumbSetter items={[{ label: "Products", href: "/shop" }, { label: data.title, href: `/shop/product/${data.id}}` }]} />
                 <div className="gap-4 flex flex-row items-start">
                     <ProductImages images={data.images} />
                     <div className="flex flex-col justify-between">

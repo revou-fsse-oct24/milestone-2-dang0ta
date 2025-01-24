@@ -1,5 +1,3 @@
-"use client";
-
 import { MainSidebar } from "@/components/main-sidebar";
 import { Separator } from "@/components/ui/separator";
 import {

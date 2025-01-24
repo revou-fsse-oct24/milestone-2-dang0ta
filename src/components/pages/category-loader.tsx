@@ -5,25 +5,23 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { ProductWithCart } from "@/components/pages/product-with-cart";
 
-import { useRouter } from "next/router";
 import useSWR from "swr";
 import CategorySkeleton from "../category-skeleton";
+import { ParsedUrlQuery } from "querystring";
 
-export function CategoryLoader({category, className}: Readonly<{category: Category, className?: string}>){
-    const router = useRouter();
-    const params = router.query;
+export function CategoryLoader({category, query: params, className}: Readonly<{category: Category, query?: ParsedUrlQuery, className?: string}>){
 
     const query: ProductsQuery = {
         category: `${category.id}`,
     };
 
-    const title = params["title"] as string;
+    const title = params?.title as string;
     if (title) {
         query.title = title;
     }
 
-    const price_min = params["price_min"] as string;
-    const price_max = params["price_max"] as string;
+    const price_min = params?.price_min as string;
+    const price_max = params?.price_max as string;
     if (price_min || price_max) {
         const min = price_min && !Number.isNaN(price_min) ? Number.parseInt(price_min) : 0;
         const max = price_max && !Number.isNaN(price_max) ? Number.parseInt(price_max) : 1000;

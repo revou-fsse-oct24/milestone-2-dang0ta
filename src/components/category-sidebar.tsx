@@ -74,7 +74,7 @@ export default function CategorySidebar() {
                                 }
                             >
 
-                                <a href={`/products?category=${item.id}`}><Package2Icon className="text-muted-foreground" />{item.name}</a>
+                                <a href={`/shop?category=${item.id}`}><Package2Icon className="text-muted-foreground" />{item.name}</a>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     ))}
