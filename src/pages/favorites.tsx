@@ -1,4 +1,3 @@
-'use client';
 import { BreadcrumbSetter } from "@/components/main-breadcrumb";
 import PageLayout from "@/components/pages/page-layout";
 import { ProductWithCart } from "@/components/product-with-cart";
