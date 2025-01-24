@@ -11,7 +11,7 @@ export const FavoriteSidebar = () => {
     return (
         <SidebarMenuItem>
             <SidebarMenuButton asChild>
-                <a href="/favorites">
+                <a href="/shop/favorites">
                     <StarIcon className="text-muted-foreground" />
                     Favorites
                 </a>

@@ -13,7 +13,7 @@ export default function CartSidebar() {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild>
-        <a href="/cart">
+        <a href="/shop/cart">
           <ShoppingCartIcon className="text-muted-foreground" />
           Cart
         </a>

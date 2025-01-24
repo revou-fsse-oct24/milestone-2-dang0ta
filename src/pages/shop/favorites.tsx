@@ -13,7 +13,7 @@ const Page = () => {
         return (
             <PageLayout>
                 <div className="flex flex-col gap-4 max-w-[83vw]">
-                    <BreadcrumbSetter items={[{ label: "Favorites", href: "/favorites" }]} />
+                    <BreadcrumbSetter items={[{ label: "Favorites", href: "/shop/favorites" }]} />
                     <h3 className="text-xl font-bold leading-none capitalize">
                         Favorites
                     </h3>
@@ -31,7 +31,7 @@ const Page = () => {
     return (
         <PageLayout>
             <div className="flex flex-col gap-4 max-w-[83vw]">
-                <BreadcrumbSetter items={[{ label: "Favorites", href: "/favorites" }]} />
+                <BreadcrumbSetter items={[{ label: "Favorites", href: "/shop/favorites" }]} />
                 <h3 className="text-xl font-bold leading-none capitalize">
                     Favorites
                 </h3>

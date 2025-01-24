@@ -15,7 +15,7 @@ export default function Page() {
     return (
         <PageLayout>
             <div className="flex flex-col gap-4 p-4">
-                <BreadcrumbSetter items={[{ label: "Cart", href: "/cart" }]} />
+                <BreadcrumbSetter items={[{ label: "Cart", href: "/shop/cart" }]} />
                 <div className="flex flex-row items-end w-full justify-between align-baseline">
                     <CartHeader count={count()} clear={clear} />
                     <CartAction total={total()} />
@@ -66,7 +66,7 @@ const CartItemDetail = ({ item }: { item: CartItem; }) => {
         >
             <Link
                 className="w-full flex flex-row gap-4"
-                href={`/product/${item.product.id}`}
+                href={`/shop/product/${item.product.id}`}
             >
                 <Image
                     className="rounded-md"
