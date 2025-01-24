@@ -46,6 +46,8 @@ export const getProductsURL = (offset: number = 0, limit: number=10): string => 
  */
 export const getProductURL = ({id}: {id: string}): string => new URL(`api/v1/products/${id}`, baseURL()).toString();
 
+export const getProductsBaseURL = (): string => new URL("api/v1/products", baseURL()).toString();
+
 export type ProductsQuery = {
     offset?: number;
     limit?: number;
@@ -68,7 +70,7 @@ export const queryProductsURL = (query: ProductsQuery): string => {
         params.set("price_max", Math.max(0, query.priceRange[1]).toString());
     }
 
-    return new URL(`api/v1/products?${params.toString()}`, baseURL()).toString();
+    return new URL(`${getProductsBaseURL()}?${params.toString()}`, baseURL()).toString();
 }
 
 // auth JWT
