@@ -50,10 +50,11 @@ const CartAction = ({ total }: { total: number; }) => {
     return (
         <div className="flex flex-row gap-4 items-end">
             <span className="text-3xl font-bold">{totalPrice}</span>
+            <Link href="/shop/cart/checkout">
             <Button variant="default" size="lg">
                 <span className="font-semibold text-lg">Checkout</span>
                 <CreditCardIcon size={32} className="ml-2 w-12 h-12" />
-            </Button>
+            </Button></Link>
         </div>
     );
 };
