@@ -23,3 +23,12 @@ export const defaultUser = (): User => ({
     role: "test",
     avatar: "https://picsum.photos/800",
 })
+
+export const getInitial = (name: string): string => {
+    const split =  name.split(" ")
+    if (split.length === 1) {
+        return split[0].charAt(0).toUpperCase()
+    }
+
+    return split[0].charAt(0).toUpperCase() + split[1].charAt(0).toUpperCase()
+}

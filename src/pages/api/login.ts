@@ -46,6 +46,8 @@ export default async function handler(
       httpOnly: true,
       maxAge: 60 * 10,
       secure: true,
+      sameSite: "lax",
+      path: "/"
     });
 
     res.setHeader("Set-Cookie", c);

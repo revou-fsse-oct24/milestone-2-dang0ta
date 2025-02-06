@@ -10,6 +10,9 @@ export default async function handler(
       "Set-Cookie",
       cookie.serialize("auth_token", "deleted", {
         maxAge: -1,
+        path: "/",
+        sameSite: "lax",
+        httpOnly: true,
       })
     )
     .status(200)
