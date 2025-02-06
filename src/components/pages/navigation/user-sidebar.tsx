@@ -1,6 +1,7 @@
 import {
     BadgeCheck,
     ChevronsUpDown,
+    FileSlidersIcon,
     Loader2Icon,
     LogInIcon,
     LogOut,
@@ -37,16 +38,16 @@ export function UserSidebar() {
     const router = useRouter();
     const { isMobile } = useSidebar();
     const { data: user, isLoading, error } = useSWR<User | null>('/api/user', async (): Promise<User | null> => {
-          const res = await fetch('/api/user');
-          if (res.status == 401) {
-                return null;
-          }
-          await handleResError(res);
-          const user =  (await res.json()) as User;
-          return user;
+        const res = await fetch('/api/user');
+        if (res.status == 401) {
+            return null;
+        }
+        await handleResError(res);
+        const user = (await res.json()) as User;
+        return user;
     });
 
-    const logout =async () => {
+    const logout = async () => {
         try {
             const res = await fetch('/api/logout');
             if (!res.ok) {
@@ -54,16 +55,16 @@ export function UserSidebar() {
                 console.warn(res.statusText, message);
             }
 
-             if (res.redirected) {
+            if (res.redirected) {
                 router.replace(res.url);
-             } else {
+            } else {
                 router.reload();
-             }
-        } catch(e) {
+            }
+        } catch (e) {
             const parsedErr = parseError(e);
             console.warn(parsedErr.message);
         }
-    }
+    };
 
     if (error) {
         return (
@@ -123,7 +124,7 @@ export function UserSidebar() {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
-                        
+
                             size="lg"
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                         >
@@ -158,10 +159,18 @@ export function UserSidebar() {
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <BadgeCheck />
-                                Account
-                            </DropdownMenuItem>
+                            <Link href="/user">
+                                <DropdownMenuItem>
+                                    <BadgeCheck />
+                                    Account
+                                </DropdownMenuItem>
+                                </Link>
+                                <Link href="/admin">
+                                <DropdownMenuItem>
+                                    <FileSlidersIcon />
+                                    Admin Page
+                                </DropdownMenuItem>
+                                </Link>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <LogoutButton onLogout={() => logout()} />
