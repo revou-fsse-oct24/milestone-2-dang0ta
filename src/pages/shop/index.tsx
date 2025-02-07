@@ -8,6 +8,7 @@ import { ReactElement } from "react";
 import { ParsedUrlQuery } from "querystring";
 import { CircleXIcon } from "lucide-react";
 import { useRouter } from 'nextjs-toploader/app';
+import Head from "next/head";
 
 type Props = {
     categories: Category[];
@@ -88,6 +89,9 @@ function Page({ categories, banners, error, resolvedURL, query }: InferGetServer
 
     return (
         <>
+        <Head>
+            <title>ShopMart!</title>
+        </Head>
             <div data-testid="banners" className="flex flex-row gap-2">
                 {banners.map((banner) => <div key={banner.key} data-testid={`banner-${banner.key}`} ><Banner label={banner.label} onRemove={() => removeBanner(banner.key)} /></div>)}
             </div>
