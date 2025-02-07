@@ -11,6 +11,7 @@ import { UserSidebar } from "@/components/pages/navigation/user-sidebar";
 import { StoreIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { DarkLightToggle } from "../dark-light-selector";
 
 const PageLayout = ({ children }: { children: ReactNode; }) => {
     return (
@@ -23,7 +24,16 @@ const PageLayout = ({ children }: { children: ReactNode; }) => {
                         <Separator orientation="vertical" className="mr-2 h-4" />
                         <MainBreadcrumb />
                     </div>
-                    <Link href="about-us"><Button size="sm" variant="ghost">about us <StoreIcon /></Button></Link>
+                    <div className="flex flex-row gap-2">
+                        <Link href="about-us">
+                            <Button size="sm" variant="ghost">
+                                about us
+                                <StoreIcon className="ml-2" />
+                            </Button>
+                        </Link>
+                        <DarkLightToggle />
+                    </div>
+
                 </header>
                 <MainContainer>{children}</MainContainer>
             </SidebarInset>
