@@ -16,9 +16,14 @@ import {
 import { CalendarDateRangePicker } from "@/pages/admin/components/date-range-picker"
 import { Overview } from "@/pages/admin/components/overview"
 import { RecentSales } from "@/pages/admin/components/recent-sales"
+import Head from "next/head";
 
 export default function DashboardPage() {
   return (
+    <>
+    <Head>
+        <title>Administrator Dashboard | ShopMart</title>
+    </Head>
     <PageLayout>
       <div className="hidden flex-col md:flex">
         <div className="flex-1 space-y-4 p-8 pt-6">
@@ -172,5 +177,6 @@ export default function DashboardPage() {
         </div>
       </div>
     </PageLayout>
+    </>
   )
 }

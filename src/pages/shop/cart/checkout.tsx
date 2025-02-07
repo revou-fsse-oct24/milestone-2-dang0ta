@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { CartItem, useCart } from "@/contexts/cart-context";
 import { getMainImage } from "@/models/product";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Head from "next/head";
 import Image from "next/image";
 import { useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
@@ -61,8 +62,11 @@ export default function CheckoutPage() {
         console.log({ data });
     };
 
-    // TODO: add layout.
     return (
+        <>
+        <Head>
+            <title>Checkout | ShopMart</title>
+        </Head>
         <PageLayout>
             <div className="flex flex-row justify-center">
                 <Form {...form}>
@@ -77,6 +81,7 @@ export default function CheckoutPage() {
                 </Form>
             </div>
         </PageLayout>
+        </>
     );
 }
 

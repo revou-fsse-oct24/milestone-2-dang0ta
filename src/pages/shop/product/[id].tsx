@@ -7,6 +7,7 @@ import { ProductImages } from "@/components/product-images";
 import { Separator } from "@/components/ui/separator";
 import { defaultProduct, Product } from "@/models/product";
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import Head from "next/head";
 
 type Props = {
     product: Product;
@@ -28,6 +29,10 @@ export default function Page({ product: data, error }: InferGetServerSidePropsTy
         return <PageLayout><div>Error: {error}</div></PageLayout>;
     }
     return (
+        <>
+        <Head>
+            <title>{data.title} | ShopMart</title>
+        </Head>
         <PageLayout>
             <div className="flex flex-col gap-8">
                 <BreadcrumbSetter items={[{ label: "Products", href: "/shop" }, { label: data.title, href: `/shop/product/${data.id}}` }]} />
@@ -50,6 +55,7 @@ export default function Page({ product: data, error }: InferGetServerSidePropsTy
                 <CategoryLoader category={data.category} />
             </div>
         </PageLayout>
+        </>
     );
 
 }

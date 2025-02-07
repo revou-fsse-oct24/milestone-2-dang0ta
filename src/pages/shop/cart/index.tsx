@@ -6,6 +6,7 @@ import { CartItem, useCart } from "@/contexts/cart-context";
 import { Category } from "@/models/category";
 import { getMainImage } from "@/models/product";
 import { CreditCardIcon, Trash2Icon } from "lucide-react";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,6 +14,10 @@ export default function Page() {
     const { allItems, total, count, clear } = useCart();
 
     return (
+        <>
+        <Head>
+            <title>Cart | ShopMart</title>
+        </Head>
         <PageLayout>
             <div className="flex flex-col gap-4 p-4">
                 <BreadcrumbSetter items={[{ label: "Cart", href: "/shop/cart" }]} />
@@ -27,6 +32,7 @@ export default function Page() {
                 </div>
             </div>
         </PageLayout>
+        </>
     );
 }
 

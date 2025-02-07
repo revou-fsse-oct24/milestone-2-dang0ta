@@ -3,8 +3,8 @@ import { useEffect } from "react";
 
 export default function Page() {
     const router = useRouter();
-    
+
     useEffect(() => {
-        router.push("/shop")
-    }, [])
+        router.push("/shop");
+    }, []);
 }
