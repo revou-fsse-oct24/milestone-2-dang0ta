@@ -26,6 +26,7 @@ type Props = {
     error?: string;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps = (async (context) => {
     try {
         const token = context.req.cookies.auth_token;

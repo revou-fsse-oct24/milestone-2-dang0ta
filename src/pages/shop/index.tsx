@@ -49,6 +49,7 @@ const Banner = ({ label, onRemove }: { label: string, onRemove: () => void; }) =
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps = (async (context) => {
     const banners = createBanners(context.query);
     try {

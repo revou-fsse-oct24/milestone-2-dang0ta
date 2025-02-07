@@ -14,6 +14,7 @@ type Props = {
     error?: string;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps = (async (context) => {
     const { status, data, error } = await getProduct({ id: context.query.id as string });
     if (status == "error") {

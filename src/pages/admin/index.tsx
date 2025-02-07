@@ -14,9 +14,9 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { CalendarDateRangePicker } from "@/pages/admin/components/date-range-picker"
-import { Overview } from "@/pages/admin/components/overview"
-import { RecentSales } from "@/pages/admin/components/recent-sales"
+import CalendarDateRangePicker  from "@/pages/admin/components/date-range-picker"
+import Overview from "@/pages/admin/components/overview"
+import RecentSales from "@/pages/admin/components/recent-sales"
 import Head from "next/head";
 
 function DashboardPage() {

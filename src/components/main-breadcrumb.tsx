@@ -49,6 +49,7 @@ export const BreadcrumbSetter = ({ items }: { items: BreadcrumbItemProps[]; }) =
     const { setItems } = useBreadcrumb();
     useEffect(() => {
         setItems(items);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return <></>;
 };
