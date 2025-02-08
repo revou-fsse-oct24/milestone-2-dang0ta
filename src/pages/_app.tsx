@@ -3,6 +3,8 @@ import "@/styles/globals.css";
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
+import NextTopLoader from 'nextjs-toploader';
+import { Toaster } from "@/components/ui/toaster";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -17,7 +19,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? ((page) => page);
     return (
         <Providers>
-        {getLayout(<Component {...pageProps} />)}
+            <NextTopLoader />
+            {getLayout(<Component {...pageProps} />)}
+            <Toaster />
         </Providers>
     );
 }

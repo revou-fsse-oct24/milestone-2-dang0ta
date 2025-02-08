@@ -20,6 +20,9 @@ import { GetServerSideProps } from "next";
 import { getUserURL } from "@/actions/api";
 import { parseError } from "@/actions/exceptions";
 import Head from "next/head";
+import { useState } from "react";
+import { useRouter } from 'nextjs-toploader/app';
+import { Loader2Icon } from "lucide-react";
 
 type Props = {
     user: User;
@@ -62,31 +65,59 @@ export const getServerSideProps = (async (context) => {
     }
 }) satisfies GetServerSideProps<Props>;
 
+type State = {
+    loading: boolean;
+    error?: string;
+};
 
-export default function ProfileForm({ user, error }: Props) {
+export default function UserPage({ user, error }: Props) {
+    const [state, setState] = useState<State>({ loading: false });
+    const router = useRouter();
 
     const form = useForm<User>({
         resolver: zodResolver(userSchema),
         defaultValues: user,
-        mode: "onChange",
     });
 
+    async function onSubmit(data: User) {
+        setState({ loading: true });
+        try {
+            const res = await fetch(`https://api.escuelajs.co/api/v1/users/${user.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: data.email,
+                    name: data.name,
+                }),
+            });
+            if (!res.ok) {
+                throw new Error(`Failed to update user, the server responded with status: ${res.statusText}`);
+            }
 
-    function onSubmit(data: User) {
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-        });
+            if (res.redirected) {
+                router.replace(res.url);
+                return;
+            }
+
+            setState({ loading: false });
+            toast({
+                title: "The user information has been updated!",
+            });
+            router.refresh();
+        } catch (err) {
+            const parsedErr = parseError(err);
+            setState({ loading: false, error: parsedErr.message });
+        }
     }
 
     if (error) {
-        return (<PageLayout>
-            <div>Error: {error}</div>
-        </PageLayout>);
+        return (
+            <PageLayout>
+                <div className="text-red-500">Error: {error}</div>
+            </PageLayout>
+        );
     }
 
     return (
@@ -97,7 +128,7 @@ export default function ProfileForm({ user, error }: Props) {
             <PageLayout>
                 <div className="flex flex-col gap-8 w-screen-lg mx-auto p-8">
                     <div className="space-y-6">
-                        <div className="flex flex-row gap-4">
+                        <div className="flex flex-row gap-4 items-center">
                             <Avatar>
                                 <AvatarImage src={user.avatar} alt={user.name} sizes="" />
                                 <AvatarFallback>{getInitial(user.name)}</AvatarFallback>
@@ -119,7 +150,7 @@ export default function ProfileForm({ user, error }: Props) {
                                     <FormItem>
                                         <FormLabel>Username</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="john doe" {...field} />
+                                            <Input placeholder="john doe" {...field} disabled={state.loading} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -133,15 +164,19 @@ export default function ProfileForm({ user, error }: Props) {
                                     <FormItem>
                                         <FormLabel>Email Address</FormLabel>
                                         <FormControl>
-                                            <Input type="email" placeholder="johndoe@shopmart.com" {...field} />
+                                            <Input type="email" placeholder="johndoe@shopmart.com" {...field} disabled={state.loading} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit">Update profile</Button>
+                            {state.loading
+                                ? <Button type="submit" disabled>Updating user profile... <Loader2Icon className="w-4 h-4 animate-spin" /></Button>
+                                : <Button type="submit">Update profile</Button>
+                            }
                         </form>
                     </Form>
+                    {state.error && <p className="text-red-500">{state.error}</p>}
                 </div>
             </PageLayout>
         </>

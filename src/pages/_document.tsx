@@ -1,5 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import NextTopLoader from 'nextjs-toploader';
+
 
 export default function RootLayout() {
     return (
@@ -11,7 +11,6 @@ export default function RootLayout() {
                 <link rel="manifest" href="/site.webmanifest"></link>
             </Head>
             <body className="antialiased">
-                <NextTopLoader />
                 <Main />
                 <NextScript />
             </body>

@@ -1,5 +1,3 @@
-"use client"
-
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { BreadcrumbProvider } from "@/contexts/breadcrumb-context";
 import dynamic from "next/dynamic";
@@ -14,15 +12,15 @@ const FavoriteProvider = dynamic(() => import("@/contexts/favorite-context"), { 
 export const Providers = ({ children }: { children: ReactNode; }) => {
     return (
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-        <FavoriteProvider>
-            <CartProvider>
-                <SidebarProvider>
-                    <BreadcrumbProvider>
-                        {children}
-                    </BreadcrumbProvider>
-                </SidebarProvider>
-            </CartProvider>
-        </FavoriteProvider>
+            <FavoriteProvider>
+                <CartProvider>
+                    <SidebarProvider>
+                        <BreadcrumbProvider>
+                            {children}
+                        </BreadcrumbProvider>
+                    </SidebarProvider>
+                </CartProvider>
+            </FavoriteProvider>
         </ThemeProvider>
     );
 };

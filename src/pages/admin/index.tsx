@@ -1,6 +1,6 @@
+import NewProductDialog from "@/components/new-product-dialog";
 import PageLayout from "@/components/pages/page-layout";
 import RedirectIfUnauthenticated from "@/components/redirect-if-not-authenticated";
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -14,7 +14,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import CalendarDateRangePicker  from "@/pages/admin/components/date-range-picker"
 import Overview from "@/pages/admin/components/overview"
 import RecentSales from "@/pages/admin/components/recent-sales"
 import Head from "next/head";
@@ -42,8 +41,7 @@ function Header() {
     <div className="flex items-center justify-between space-y-2">
       <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
       <div className="flex items-center space-x-2">
-        <CalendarDateRangePicker />
-        <Button>Download</Button>
+        <NewProductDialog />
       </div>
     </div>
   );

@@ -54,11 +54,11 @@ export const getServerSideProps = (async (context) => {
     const banners = createBanners(context.query);
     try {
         const categories = await getCategoriesFetcher();
-        if(context.query.category && !Number.isNaN(Number.parseInt(context.query.category as string))) {
+        if (context.query.category && !Number.isNaN(Number.parseInt(context.query.category as string))) {
             const category = categories.find((c) => c.id === Number.parseInt(context.query.category as string));
             if (category) {
                 banners.push({ key: "category", label: `category: ${category.name}` });
-                return {props: { categories: [category], banners: banners, resolvedURL: context.resolvedUrl, query: context.query }}
+                return { props: { categories: [category], banners: banners, resolvedURL: context.resolvedUrl, query: context.query } };
             }
         }
         return {
@@ -90,9 +90,9 @@ function Page({ categories, banners, error, resolvedURL, query }: InferGetServer
 
     return (
         <>
-        <Head>
-            <title>ShopMart!</title>
-        </Head>
+            <Head>
+                <title>ShopMart!</title>
+            </Head>
             <div data-testid="banners" className="flex flex-row gap-2">
                 {banners.map((banner) => <div key={banner.key} data-testid={`banner-${banner.key}`} ><Banner label={banner.label} onRemove={() => removeBanner(banner.key)} /></div>)}
             </div>

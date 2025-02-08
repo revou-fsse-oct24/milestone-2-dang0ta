@@ -1,16 +1,20 @@
 import { ProductsQuery, queryProductsURL } from "@/actions/api";
-import {  queryProductsFetcher } from "@/actions/products";
+import { queryProductsFetcher } from "@/actions/products";
 import { Category } from "@/models/category";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { ProductWithCart } from "@/components/pages/product-with-cart";
-
 import useSWR from "swr";
 import CategorySkeleton from "../category-skeleton";
 import { ParsedUrlQuery } from "querystring";
 
-export function CategoryLoader({category, query: params, className}: Readonly<{category: Category, query?: ParsedUrlQuery, className?: string}>){
+interface CategoryLoaderProps {
+    category: Category;
+    query?: ParsedUrlQuery;
+    className?: string;
+}
 
+export function CategoryLoader({ category, query: params, className }: Readonly<CategoryLoaderProps>) {
     const query: ProductsQuery = {
         category: `${category.id}`,
     };
@@ -31,22 +35,29 @@ export function CategoryLoader({category, query: params, className}: Readonly<{c
     const { data, isLoading, error } = useSWR(queryProductsURL(query), () => queryProductsFetcher(query));
 
     if (error) {
-        return <>Error: {error}</>;
+        return (
+            <div className={cn(className, "text-red-500")}>
+                <h3 className="text-xl font-bold leading-none capitalize">
+                    {category.name}
+                </h3>
+                <p>Error: {error.message}</p>
+            </div>
+        );
     }
 
     if (isLoading) {
-        return <CategorySkeleton />
+        return <CategorySkeleton />;
     }
 
-    if (!data) {
+    if (!data || data.length === 0) {
         return (
             <div className={cn(className)}>
                 <h3 className="text-xl font-bold leading-none capitalize">
                     {category.name}
                 </h3>
                 <ScrollArea>
-                    <div className="flex space-x-4 pb-4 h-[200px]">
-                        <span>no product in this category</span>
+                    <div className="flex flex-col items-start space-y-4 py-4 h-[200px]">
+                        <span className="text-muted-foreground">There aren&apos;t any products in this category</span>
                     </div>
                     <ScrollBar orientation="horizontal" />
                 </ScrollArea>
@@ -69,7 +80,6 @@ export function CategoryLoader({category, query: params, className}: Readonly<{c
             </ScrollArea>
         </div>
     );
-};
+}
 
-
-export default CategoryLoader
+export default CategoryLoader;
