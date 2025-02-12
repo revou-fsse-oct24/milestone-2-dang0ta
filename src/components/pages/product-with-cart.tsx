@@ -8,7 +8,7 @@ import { FavoriteModifier } from "./favorite-modifier";
 
 export const ProductWithCart = ({ product }: { product: Product; }) => {
     return (
-        <div key={product.id} className="flex flex-col items-start">
+        <div key={product.id} className="flex flex-col items-start" data-testid="product" >
             <Link href={`/shop/product/${product.id}`}>
                 <ProductCard product={product} />
             </Link>

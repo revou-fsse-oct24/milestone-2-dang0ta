@@ -45,7 +45,7 @@ export function LoginForm({
             <Card className="overflow-hidden">
                 <CardContent className="grid p-0 md:grid-cols-2">
                     <Form {...form} >
-                        <form className="p-6 md:p-8" onSubmit={form.handleSubmit(handleSubmit)}>
+                        <form className="p-6 md:p-8" method="post" onSubmit={form.handleSubmit(handleSubmit)}>
                             <div className="flex flex-col gap-6">
                                 <div className="flex flex-col items-center text-center">
                                     <h1 className="text-2xl font-bold">Welcome back</h1>
@@ -59,10 +59,10 @@ export function LoginForm({
                                             Email
                                         </FormLabel>
                                         <FormControl>
-                                            <Input {...field} placeholder="johndoe@shopmart.com" />
+                                            <Input data-testid="email-input" {...field} placeholder="johndoe@shopmart.com" />
                                         </FormControl>
                                         <FormDescription />
-                                        <FormMessage />
+                                        <FormMessage data-testid="email-input-message" />
                                     </FormItem>
                                 )} />
 
@@ -72,21 +72,23 @@ export function LoginForm({
                                             Password
                                         </FormLabel>
                                         <FormControl>
-                                            <Input {...field} placeholder="your very secure password" type="password" />
+                                            <Input data-testid="password-input" {...field} placeholder="your very secure password" type="password" />
                                         </FormControl>
                                         <FormDescription />
-                                        <FormMessage />
+                                        <FormMessage data-testid="password-input-message" />
                                     </FormItem>
                                 )} />
 
-                                {state.loading ? <Button disabled type="submit" className="w-full">
+                                {state.loading 
+                                ? <Button disabled type="submit" className="w-full">
                                     <Loader2Icon size={16} className="animate-spin" />
                                     Logging in...
-                                </Button> : <Button type="submit" className="w-full">
+                                </Button> 
+                                : <Button  data-testid="submit-button" type="submit" className="w-full">
                                     Login
                                 </Button>}
 
-                                {state.error ? <p className="text-sm font-semibold text-destructive">{state.error}</p> : <p>&nbsp;</p>}
+                                <p  data-testid="error-message" className="text-sm font-semibold text-destructive">{state.error || ''}</p>
                                 <div className="text-center text-sm">
                                     Don&apos;t have an account?{" "}
                                     <a href="/register" className="underline underline-offset-4">

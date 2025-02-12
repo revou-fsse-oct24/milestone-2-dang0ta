@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from 'nextjs-toploader/app';
 import { useEffect } from "react";
 
 export default function Page() {

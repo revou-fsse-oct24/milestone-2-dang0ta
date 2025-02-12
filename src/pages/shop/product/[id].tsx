@@ -2,7 +2,6 @@ import { getProduct } from "@/actions/products";
 import { CartModifier } from "@/components/cart-modifier";
 import { BreadcrumbSetter } from "@/components/main-breadcrumb";
 import CategoryLoader from "@/components/pages/category-loader";
-import PageLayout from "@/components/pages/page-layout";
 import { ProductImages } from "@/components/product-images";
 import { Separator } from "@/components/ui/separator";
 import { defaultProduct, Product } from "@/models/product";
@@ -27,14 +26,13 @@ export const getServerSideProps = (async (context) => {
 
 export default function Page({ product: data, error }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     if (error) {
-        return <PageLayout><div>Error: {error}</div></PageLayout>;
+        return <div>Error: {error}</div>;
     }
     return (
         <>
         <Head>
             <title>{data.title} | ShopMart</title>
         </Head>
-        <PageLayout>
             <div className="flex flex-col gap-8">
                 <BreadcrumbSetter items={[{ label: "Products", href: "/shop" }, { label: data.title, href: `/shop/product/${data.id}}` }]} />
                 <div className="gap-4 flex flex-row items-start">
@@ -55,7 +53,6 @@ export default function Page({ product: data, error }: InferGetServerSidePropsTy
 
                 <CategoryLoader category={data.category} />
             </div>
-        </PageLayout>
         </>
     );
 

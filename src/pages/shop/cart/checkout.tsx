@@ -1,4 +1,4 @@
-import PageLayout from "@/components/pages/page-layout";
+
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -67,7 +67,6 @@ export default function CheckoutPage() {
         <Head>
             <title>Checkout | ShopMart</title>
         </Head>
-        <PageLayout>
             <div className="flex flex-row justify-center">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-row gap-4 max-w-screen-xl">
@@ -80,7 +79,6 @@ export default function CheckoutPage() {
                     </form>
                 </Form>
             </div>
-        </PageLayout>
         </>
     );
 }

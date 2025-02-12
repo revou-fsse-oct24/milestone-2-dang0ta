@@ -32,7 +32,7 @@ import useSWR from "swr";
 import { User } from "@/models/user";
 import { handleResError } from "@/actions/error";
 import { parseError } from "@/actions/exceptions";
-import { useRouter } from "next/router";
+import { useRouter } from 'nextjs-toploader/app';
 
 export function UserSidebar() {
     const router = useRouter();
@@ -58,7 +58,7 @@ export function UserSidebar() {
             if (res.redirected) {
                 router.replace(res.url);
             } else {
-                router.reload();
+                router.refresh();
             }
         } catch (e) {
             const parsedErr = parseError(e);

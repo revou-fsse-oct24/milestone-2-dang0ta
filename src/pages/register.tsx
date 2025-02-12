@@ -2,9 +2,10 @@ import { parseError } from "@/actions/exceptions";
 import { RegisterForm } from "@/components/pages/authentication/register-form";
 import { userInformation, UserInformation } from "@/models/user-information";
 import Head from "next/head";
-import { useRouter } from 'next/router';
+import { useRouter } from 'nextjs-toploader/app';
+import { ReactElement, ReactNode } from "react";
 
-export default function RegisterPage() {
+function RegisterPage() {
     const router = useRouter();
     return (
         <>
@@ -51,3 +52,9 @@ export default function RegisterPage() {
         </>
     );
 }
+
+
+
+RegisterPage.getLayout = (page:ReactElement): ReactNode => <>{page}</>
+
+export default RegisterPage;

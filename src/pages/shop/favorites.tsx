@@ -1,5 +1,4 @@
 import { BreadcrumbSetter } from "@/components/main-breadcrumb";
-import PageLayout from "@/components/pages/page-layout";
 import { ProductWithCart } from "@/components/product-with-cart";
 import { ScrollBar } from "@/components/ui/scroll-area";
 import { useFavorite } from "@/contexts/favorite-context";
@@ -16,7 +15,6 @@ const Page = () => {
                 <Head>
                     <title>Favorites | ShopMart</title>
                 </Head>
-                <PageLayout>
                     <div className="flex flex-col gap-4 max-w-[83vw]">
                         <BreadcrumbSetter items={[{ label: "Favorites", href: "/shop/favorites" }]} />
                         <h3 className="text-xl font-bold leading-none capitalize">
@@ -29,7 +27,6 @@ const Page = () => {
                             <ScrollBar orientation="horizontal" />
                         </ScrollArea>
                     </div>
-                </PageLayout>
             </>
         );
     }
@@ -39,7 +36,6 @@ const Page = () => {
             <Head>
                 <title>Favorites | ShopMart</title>
             </Head>
-            <PageLayout>
                 <div className="flex flex-col gap-4 max-w-[83vw]">
                     <BreadcrumbSetter items={[{ label: "Favorites", href: "/shop/favorites" }]} />
                     <h3 className="text-xl font-bold leading-none capitalize">
@@ -54,7 +50,7 @@ const Page = () => {
                         <ScrollBar orientation="horizontal" />
                     </ScrollArea>
                 </div>
-            </PageLayout></>
+            </>
     );
 };
 

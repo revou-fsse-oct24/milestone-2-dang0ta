@@ -2,10 +2,11 @@ import { parseError } from "@/actions/exceptions";
 import { LoginForm } from "@/components/pages/authentication/login-form";
 import { Credential } from "@/models/login-credential";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from 'nextjs-toploader/app';
+import { ReactElement, ReactNode } from "react";
 
 
-export default function LoginPage() {
+function LoginPage() {
     const router = useRouter();
     return (
         <>
@@ -26,14 +27,10 @@ export default function LoginPage() {
                             });
 
                             if (!res.ok) {
-                                return res.statusText;
+                                return await res.text();
                             }
 
-                            // handle redirect response manually,
-                            // since we're using fetch.
-                            if (res.redirected) {
-                                router.replace(res.url);
-                            }
+                            router.replace(res.url);
 
                             return "";
                         } catch (e) {
@@ -46,3 +43,7 @@ export default function LoginPage() {
         </>
     );
 }
+
+LoginPage.getLayout = (page:ReactElement): ReactNode => <>{page}</>
+
+export default LoginPage;

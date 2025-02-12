@@ -66,7 +66,7 @@ export function CategoryLoader({ category, query: params, className }: Readonly<
     }
 
     return (
-        <div className={cn(className, "flex flex-col gap-4 w-full")}>
+        <div className={cn(className, "flex flex-col gap-4 w-full")} data-testid="category">
             <h3 className="text-xl font-bold leading-none capitalize">
                 {category.name}
             </h3>

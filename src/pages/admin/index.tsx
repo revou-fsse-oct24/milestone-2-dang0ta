@@ -1,5 +1,4 @@
 import NewProductDialog from "@/components/new-product-dialog";
-import PageLayout from "@/components/pages/page-layout";
 import RedirectIfUnauthenticated from "@/components/redirect-if-not-authenticated";
 import {
   Card,
@@ -24,14 +23,12 @@ function DashboardPage() {
       <Head>
         <title>Administrator Dashboard | ShopMart</title>
       </Head>
-      <PageLayout>
         <div className="hidden flex-col md:flex">
           <div className="flex-1 space-y-4 p-8 pt-6">
             <Header />
             <TabsSection />
           </div>
         </div>
-      </PageLayout>
     </>
   );
 }

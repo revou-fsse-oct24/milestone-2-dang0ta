@@ -4,11 +4,16 @@ import { loginURL } from "@/actions/api";
 import { credential, LoginResponse } from "@/models/login-credential";
 import * as cookie from "cookie";
 
+export const UNAUTHORIZED_MESSAGE = "wrong email and/or password";
+export const FORBIDDEN_MESSAGE = "you're not allowed to do this!"
+export const INTERNAL_SERVER_ERROR_MESSAGE = "An error occurred"
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string>
 ) {
   try {
+    console.log(req)
     const parsed = credential.safeParse({
       ...req.body,
     });
@@ -32,11 +37,11 @@ export default async function handler(
     if (!r.ok) {
       switch (r.status) {
         case 401:
-          return res.status(401).json("wrong email and/or password");
+          return res.status(401).send(UNAUTHORIZED_MESSAGE);
         case 403:
-          return res.status(403).json("you're not allowed to do this!");
+          return res.status(403).send(FORBIDDEN_MESSAGE);
       }
-      return res.status(500).json("An error occurred");
+      return res.status(500).send(INTERNAL_SERVER_ERROR_MESSAGE);
     }
 
     const data = (await r.json()) as LoginResponse;
@@ -51,12 +56,13 @@ export default async function handler(
     });
 
     res.setHeader("Set-Cookie", c);
-    
+    res.redirect("/");
+
   } catch (e) {
     const parsedErr = parseError(e);
     console.warn(parsedErr.message);
     return res.status(500).send(parsedErr.message);
   }
 
-  res.redirect("/");
+  
 }

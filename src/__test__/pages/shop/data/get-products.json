@@ -1,0 +1,42 @@
+[
+    {
+        "id": 11,
+        "title": "Classic Red Baseball Cap",
+        "price": 35,
+        "description": "Elevate your casual wardrobe with this timeless red baseball cap. Crafted from durable fabric, it features a comfortable fit with an adjustable strap at the back, ensuring one size fits all. Perfect for sunny days or adding a sporty touch to your outfit.",
+        "images": [
+            "https://i.imgur.com/cBuLvBi.jpeg",
+            "https://i.imgur.com/N1GkCIR.jpeg",
+            "https://i.imgur.com/kKc9A5p.jpeg"
+        ],
+        "creationAt": "2025-01-24T08:29:50.000Z",
+        "updatedAt": "2025-01-24T08:29:50.000Z",
+        "category": {
+            "id": 1,
+            "name": "Tools",
+            "image": "tools.png",
+            "creationAt": "2025-01-24T08:29:50.000Z",
+            "updatedAt": "2025-01-24T09:42:00.000Z"
+        }
+    },
+    {
+        "id": 12,
+        "title": "Classic Black Baseball Cap",
+        "price": 58,
+        "description": "Elevate your casual wear with this timeless black baseball cap. Made with high-quality, breathable fabric, it features an adjustable strap for the perfect fit. Whether you’re out for a jog or just running errands, this cap adds a touch of style to any outfit.",
+        "images": [
+            "https://i.imgur.com/KeqG6r4.jpeg",
+            "https://i.imgur.com/xGQOw3p.jpeg",
+            "https://i.imgur.com/oO5OUjb.jpeg"
+        ],
+        "creationAt": "2025-01-24T08:29:50.000Z",
+        "updatedAt": "2025-01-24T08:29:50.000Z",
+        "category": {
+            "id": 1,
+            "name": "Tools",
+            "image": "tools.png",
+            "creationAt": "2025-01-24T08:29:50.000Z",
+            "updatedAt": "2025-01-24T09:42:00.000Z"
+        }
+    }
+]

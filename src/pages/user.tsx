@@ -13,7 +13,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import PageLayout from "@/components/pages/page-layout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { defaultUser, getInitial, User, userSchema } from "@/models/user";
 import { GetServerSideProps } from "next";
@@ -114,9 +113,7 @@ export default function UserPage({ user, error }: Props) {
 
     if (error) {
         return (
-            <PageLayout>
                 <div className="text-red-500">Error: {error}</div>
-            </PageLayout>
         );
     }
 
@@ -125,7 +122,6 @@ export default function UserPage({ user, error }: Props) {
             <Head>
                 <title>{user.name} | ShopMart</title>
             </Head>
-            <PageLayout>
                 <div className="flex flex-col gap-8 w-screen-lg mx-auto p-8">
                     <div className="space-y-6">
                         <div className="flex flex-row gap-4 items-center">
@@ -178,7 +174,6 @@ export default function UserPage({ user, error }: Props) {
                     </Form>
                     {state.error && <p className="text-red-500">{state.error}</p>}
                 </div>
-            </PageLayout>
         </>
     );
 }

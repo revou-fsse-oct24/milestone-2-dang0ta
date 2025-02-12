@@ -1,6 +1,5 @@
 import { CartModifier } from "@/components/cart-modifier";
 import { BreadcrumbSetter } from "@/components/main-breadcrumb";
-import PageLayout from "@/components/pages/page-layout";
 import { Button } from "@/components/ui/button";
 import { CartItem, useCart } from "@/contexts/cart-context";
 import { Category } from "@/models/category";
@@ -15,10 +14,9 @@ export default function Page() {
 
     return (
         <>
-        <Head>
-            <title>Cart | ShopMart</title>
-        </Head>
-        <PageLayout>
+            <Head>
+                <title>Cart | ShopMart</title>
+            </Head>
             <div className="flex flex-col gap-4 p-4">
                 <BreadcrumbSetter items={[{ label: "Cart", href: "/shop/cart" }]} />
                 <div className="flex flex-row items-end w-full justify-between align-baseline">
@@ -31,7 +29,6 @@ export default function Page() {
                     ))}
                 </div>
             </div>
-        </PageLayout>
         </>
     );
 }
@@ -57,10 +54,10 @@ const CartAction = ({ total }: { total: number; }) => {
         <div className="flex flex-row gap-4 items-end">
             <span className="text-3xl font-bold">{totalPrice}</span>
             <Link href="/shop/cart/checkout">
-            <Button variant="default" size="lg">
-                <span className="font-semibold text-lg">Checkout</span>
-                <CreditCardIcon size={32} className="ml-2 w-12 h-12" />
-            </Button></Link>
+                <Button variant="default" size="lg">
+                    <span className="font-semibold text-lg">Checkout</span>
+                    <CreditCardIcon size={32} className="ml-2 w-12 h-12" />
+                </Button></Link>
         </div>
     );
 };
