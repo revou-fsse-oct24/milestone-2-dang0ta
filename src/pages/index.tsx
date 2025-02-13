@@ -8,4 +8,6 @@ export default function Page() {
         router.push("/shop");
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    return null;
 }

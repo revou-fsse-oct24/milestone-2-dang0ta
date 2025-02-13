@@ -1,4 +1,3 @@
-
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
 import { http, HttpResponse } from 'msw';
@@ -9,7 +8,8 @@ import { getCategoriesURL, getProductsBaseURL } from '@/actions/api';
 import { server } from "@/__mocks__/server";
 import { getCategoriesResponse, getProductsResponse } from './data';
 import { useRouter } from 'nextjs-toploader/app';
-import { describe, it, expect, vi, Mock } from 'vitest'
+import { describe, it, expect, vi, Mock, afterEach } from 'vitest'
+import { beforeEach } from 'node:test';
 
 
 vi.mock('nextjs-toploader/app', () => ({
@@ -18,6 +18,14 @@ vi.mock('nextjs-toploader/app', () => ({
 
 
 describe('common cases, happy path 😊', () => {
+    const mockRouter = { push: vi.fn() };
+    beforeEach(() => {
+        (useRouter as Mock).mockReturnValue(mockRouter);
+    });
+
+    afterEach(() => {
+        mockRouter.push.mockClear();    
+    })
 
     it('renders products grouped into categories, and each product has proper href', async () => {
         server.use(http.get(getCategoriesURL(), () => {
@@ -88,6 +96,11 @@ describe('common cases, happy path 😊', () => {
 });
 
 describe("edge cases", () => {
+    beforeEach(() => {
+        const mockRouter = { push: vi.fn() };
+        (useRouter as Mock).mockReturnValue(mockRouter);
+    });
+
     it('renders the filter chips correctly, and the correct search parameter is removed when chip is clicked, when there\'s no category selected', async () => {
         server.use(http.get(getCategoriesURL(), () => {
             return HttpResponse.json(getCategoriesResponse);
@@ -147,7 +160,35 @@ describe("edge cases", () => {
             expect(mockRouter.push).toHaveBeenCalledWith('/shop');
         });
     });
-})
+
+    it('renders correctly when no categories are returned from the server', async () => {
+        server.use(http.get(getCategoriesURL(), () => {
+            return HttpResponse.json([]);
+        }));
+
+        const { props } = await getServerSideProps(createPropContext('/shop'));
+        const { getByTestId } = render(<Page {...props} />);
+        await waitFor(() => {
+            expect(getByTestId('banners')).toBeInTheDocument();
+            expect(() => getByTestId('error')).toThrow();
+        });
+    });
+
+    it('renders correctly when no products are returned from the server', async () => {
+        server.use(http.get(getProductsBaseURL(), () => {
+            return HttpResponse.json([]);
+        }), http.get(getCategoriesURL(), () => {
+            return HttpResponse.json([]);
+        }));
+
+        const { props } = await getServerSideProps(createPropContext('/shop'));
+        const { getByTestId } = render(<Page {...props} />);
+        await waitFor(() => {
+            expect(getByTestId('banners')).toBeInTheDocument();
+            expect(() => getByTestId('error')).toThrow();
+        });
+    });
+});
 
 describe("error handling", () => {
     it('renders an error, given the server returns an error text', async () => {
@@ -168,4 +209,19 @@ describe("error handling", () => {
             expect(getByTestId('error')).toBeInTheDocument();
         });
     });
-})
+
+    it('renders a specific error message when the server returns a 404', async () => {
+        server.use(
+            http.get(getCategoriesURL(), () => {
+                return HttpResponse.text('Not Found', { status: 404 });
+            })
+        );
+
+        const { props } = await getServerSideProps(createPropContext('/shop'));
+        const { getByTestId } = render(<Page {...props} />);
+        await waitFor(() => {
+            expect(getByTestId('error')).toBeInTheDocument();
+            expect(getByTestId('error')).toHaveTextContent('Not Found');
+        });
+    });
+});

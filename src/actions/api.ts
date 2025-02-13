@@ -87,6 +87,8 @@ export const loginURL = (): string => new URL("api/v1/auth/login", baseURL()).to
  */
 export const getUserURL = (): string => new URL("api/v1/auth/profile", baseURL()).toString();
 
+export const getUserByIDURL = (id: number) => new URL(`api/v1/users/${id}`, baseURL()).toString();
+
 /**
  * Returns the URL for refreshing the access token.
  * @returns {string} The URL for refreshing the access token.
