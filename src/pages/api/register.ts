@@ -3,6 +3,9 @@ import { parseError } from "@/actions/exceptions";
 import { createUserURL } from "@/actions/api";
 import { userInformation } from "@/models/user-information";
 
+export const INVALID_USER_INFORMATION = "invalid user information";
+export const INTERNAL_SERVER_ERROR = "An error occurred";
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string>
@@ -30,13 +33,9 @@ export default async function handler(
     if (!r.ok) {
       switch (r.status) {
         case 400:
-            return res.status(400).send("invalid user information");
-        case 401:
-          return res.status(401).send("wrong email and/or password");
-        case 403:
-          return res.status(403).send("you're not allowed to do this!");
+            return res.status(400).send(INVALID_USER_INFORMATION);
       }
-      return res.status(500).send("An error occurred");
+      return res.status(500).send(INTERNAL_SERVER_ERROR);
     }
     
   } catch (e) {

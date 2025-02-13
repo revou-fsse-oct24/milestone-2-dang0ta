@@ -56,10 +56,10 @@ export function RegisterForm({
                                         <FormItem>
                                             <FormLabel>User name</FormLabel>
                                             <FormControl>
-                                                <Input {...field} placeholder="John Doe" />
+                                                <Input data-testid="user-name-input" {...field} placeholder="John Doe" />
                                             </FormControl>
                                             <FormDescription />
-                                            <FormMessage />
+                                            <FormMessage data-testid="user-name-input-message" />
                                         </FormItem>
                                     )} />
 
@@ -67,10 +67,10 @@ export function RegisterForm({
                                         <FormItem>
                                             <FormLabel>Email</FormLabel>
                                             <FormControl>
-                                                <Input {...field} placeholder="johndoe@shopmart.com" />
+                                                <Input  data-testid="email-input" {...field} placeholder="johndoe@shopmart.com" />
                                             </FormControl>
                                             <FormDescription />
-                                            <FormMessage />
+                                            <FormMessage data-testid="email-input-message" />
                                         </FormItem>
                                     )} />
 
@@ -78,20 +78,21 @@ export function RegisterForm({
                                         <FormItem>
                                             <FormLabel>Password</FormLabel>
                                             <FormControl>
-                                                <Input {...field} placeholder="your very secure password" type="password" />
+                                                <Input  data-testid="password-input" {...field} placeholder="your very secure password" type="password" />
                                             </FormControl>
                                             <FormDescription />
-                                            <FormMessage />
+                                            <FormMessage data-testid="password-input-message" />
                                         </FormItem>
                                     )} />
-                                    {state.loading ? <Button disabled type="submit" className="w-full">
+                                    {state.loading ? <Button data-testid="submit-button" disabled type="submit" className="w-full">
                                         <Loader2Icon size={16} className="animate-spin" />
                                         Creating user...
-                                    </Button> : <Button type="submit" className="w-full">
+                                    </Button> : <Button  data-testid="submit-button" type="submit" className="w-full">
                                         Create user
                                     </Button>}
                                 </div>
-                                {state.error ? <p className="text-sm font-semibold text-destructive">{state.error}</p> : <p>&nbsp;</p>}
+
+                                <p data-testid="error-message" className="text-sm font-semibold text-destructive">{state.error || ""}</p>
                                 <div className="text-center text-sm">
                                     already have an account?{" "}
                                     <a href="/login" className="underline underline-offset-4">
