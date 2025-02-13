@@ -27,7 +27,7 @@ function LoginPage() {
                             });
 
                             if (!res.ok) {
-                                return await res.text();
+                                throw await res.text();
                             }
 
                             router.replace(res.url);

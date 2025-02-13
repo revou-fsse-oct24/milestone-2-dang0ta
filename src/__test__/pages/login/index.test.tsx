@@ -112,7 +112,7 @@ describe('common cases, happy path', () => {
         });
     })
 
-    it('it should handle 403 error correctly', async () => {
+    it('it should handle 401 error correctly', async () => {
         const mockRouter = { replace: vi.fn(), pathname: '/' };
         (useRouter as Mock).mockReturnValue(mockRouter);
         server.use(http.post('/api/login', () => new HttpResponse(FORBIDDEN_MESSAGE, {
@@ -142,7 +142,7 @@ describe('common cases, happy path', () => {
 
 
 
-    it('it should handle 500 error correctly', async () => {
+    it('it should handle 401 error correctly', async () => {
         const mockRouter = { replace: vi.fn(), pathname: '/' };
         (useRouter as Mock).mockReturnValue(mockRouter);
         server.use(http.post('/api/login', () => new HttpResponse(INTERNAL_SERVER_ERROR_MESSAGE, {

@@ -10,9 +10,7 @@ import { nanoid } from "nanoid";
  * @returns An Error class with proper message.
  */
 export function parseError(err: unknown): Error {
-  // do we need to trace this?
   const errorID = nanoid();
-  console.trace(`error id: ${errorID}`, { err });
 
   if (err instanceof Error) {
     return err;
